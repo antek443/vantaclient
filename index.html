@@ -1,208 +1,212 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Vanta Client - Licencje</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            background: #05060a;
-            color: #f5f5f5;
-            font-family: Arial, sans-serif;
-            margin: 0;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 30px 15px;
-        }
-        h1, h2, h3 {
-            text-align: center;
-        }
-        h1 {
-            letter-spacing: 2px;
-        }
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 25px;
-        }
-        .card {
-            background: #10121a;
-            border: 1px solid #262a3a;
-            border-radius: 10px;
-            padding: 20px;
-            width: 260px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.6);
-        }
-        .card h3 {
-            margin-top: 0;
-        }
-        .price {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin: 10px 0;
-            color: #4ade80;
-        }
-        ul {
-            padding-left: 18px;
-        }
-        .lang-toggle {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .lang-toggle button {
-            background: #1f2937;
-            color: #f5f5f5;
-            border: 1px solid #374151;
-            padding: 8px 16px;
-            margin: 0 5px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .lang-toggle button.active {
-            background: #4ade80;
-            color: #05060a;
-            border-color: #4ade80;
-        }
-        .section {
-            display: none;
-        }
-        .section.active {
-            display: block;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 0.85rem;
-            color: #9ca3af;
-        }
-        a {
-            color: #60a5fa;
-            text-decoration: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanta Client</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: #0b0d12;
+        color: #fff;
+    }
+
+    /* NAVBAR */
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        background: rgba(10, 12, 18, 0.9);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+    }
+    nav a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 1rem;
+    }
+    nav a:hover {
+        color: #4ade80;
+    }
+
+    /* HEADER */
+    header {
+        height: 100vh;
+        background: linear-gradient(180deg, #0b0d12 0%, #11131a 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0 20px;
+    }
+    header h1 {
+        font-size: 3.5rem;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+    }
+    header p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        opacity: 0.8;
+    }
+    .btn {
+        margin-top: 25px;
+        padding: 12px 25px;
+        background: #4ade80;
+        color: #0b0d12;
+        border-radius: 8px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+    .btn:hover {
+        background: #3ac46d;
+    }
+
+    /* FEATURES */
+    .section {
+        padding: 80px 20px;
+        max-width: 1100px;
+        margin: auto;
+    }
+    .features {
+        display: flex;
+        gap: 25px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .feature-box {
+        background: #14161f;
+        padding: 25px;
+        border-radius: 10px;
+        width: 300px;
+        border: 1px solid #1f2230;
+        text-align: center;
+        transition: 0.3s;
+    }
+    .feature-box:hover {
+        transform: translateY(-5px);
+        border-color: #4ade80;
+    }
+
+    /* LICENSES */
+    .cards {
+        display: flex;
+        gap: 25px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .card {
+        background: #14161f;
+        padding: 25px;
+        border-radius: 10px;
+        width: 280px;
+        border: 1px solid #1f2230;
+        text-align: center;
+        transition: 0.3s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        border-color: #4ade80;
+    }
+    .price {
+        font-size: 1.6rem;
+        color: #4ade80;
+        margin: 10px 0;
+    }
+
+    /* FOOTER */
+    footer {
+        text-align: center;
+        padding: 40px;
+        background: #0b0d12;
+        opacity: 0.7;
+        font-size: 0.9rem;
+    }
+</style>
 </head>
+
 <body>
-<div class="container">
+
+<nav>
+    <div class="logo">Vanta Client</div>
+    <div>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#licenses">Licenses</a>
+        <a href="#download">Download</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
+
+<header id="home">
     <h1>Vanta Client</h1>
-    <h2>Licencje / Licenses</h2>
+    <p>Advanced private client providing stability, performance and undetected gameplay enhancements.</p>
+    <a class="btn" href="#download">Download Now</a>
+</header>
 
-    <div class="lang-toggle">
-        <button id="btn-pl" class="active">Polski</button>
-        <button id="btn-en">English</button>
-    </div>
-
-    <!-- POLSKI -->
-    <div id="section-pl" class="section active">
-        <h2>Licencje</h2>
-        <div class="cards">
-            <div class="card">
-                <h3>Licencja Miesięczna</h3>
-                <div class="price">10 zł / 30 dni</div>
-                <ul>
-                    <li>Pełny dostęp do Vanta Client</li>
-                    <li>Aktualizacje i wsparcie techniczne</li>
-                    <li>Priorytetowe poprawki po update’ach gier</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>Licencja Roczna</h3>
-                <div class="price">15 zł / 365 dni</div>
-                <ul>
-                    <li>Wszystko z licencji miesięcznej</li>
-                    <li>Dodatkowe funkcje eksperymentalne</li>
-                    <li>Niższa cena w przeliczeniu na miesiąc</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>Lifetime (LF)</h3>
-                <div class="price">20 zł jednorazowo</div>
-                <ul>
-                    <li>Dostęp na zawsze</li>
-                    <li>Najwyższy priorytet supportu</li>
-                    <li>Wczesny dostęp do nowych funkcji</li>
-                </ul>
-            </div>
+<section id="features" class="section">
+    <h2>Features</h2>
+    <div class="features">
+        <div class="feature-box">
+            <h3>Undetected</h3>
+            <p>Constant updates and protection bypass.</p>
         </div>
-
-        <h2>Informacje o płatnościach</h2>
-        <ul>
-            <li>Płatność: PayPal, BLIK, przelew</li>
-            <li>Klucz aktywacyjny wysyłany automatycznie po zakupie</li>
-            <li>Zwroty tylko w przypadku błędu po stronie systemu</li>
-            <li>Zakup oznacza akceptację regulaminu</li>
-        </ul>
-    </div>
-
-    <!-- ENGLISH -->
-    <div id="section-en" class="section">
-        <h2>Licenses</h2>
-        <div class="cards">
-            <div class="card">
-                <h3>Monthly License</h3>
-                <div class="price">10 PLN / 30 days</div>
-                <ul>
-                    <li>Full access to Vanta Client</li>
-                    <li>Updates & technical support</li>
-                    <li>Priority fixes after game updates</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>Yearly License</h3>
-                <div class="price">15 PLN / 365 days</div>
-                <ul>
-                    <li>Everything from the monthly license</li>
-                    <li>Extra experimental features</li>
-                    <li>Lower cost per month</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>Lifetime (LF)</h3>
-                <div class="price">20 PLN one-time</div>
-                <ul>
-                    <li>Permanent access</li>
-                    <li>Highest support priority</li>
-                    <li>Early access to new features</li>
-                </ul>
-            </div>
+        <div class="feature-box">
+            <h3>Performance</h3>
+            <p>Optimized for maximum FPS and stability.</p>
         </div>
-
-        <h2>Payment information</h2>
-        <ul>
-            <li>Payment: PayPal, BLIK, bank transfer</li>
-            <li>Activation key delivered automatically after purchase</li>
-            <li>Refunds only if the system fails</li>
-            <li>Purchasing means accepting the terms</li>
-        </ul>
+        <div class="feature-box">
+            <h3>Customization</h3>
+            <p>Full control over modules and settings.</p>
+        </div>
     </div>
+</section>
 
-    <div class="footer">
-        © Vanta Client — All rights reserved.
+<section id="licenses" class="section">
+    <h2>Licenses</h2>
+    <div class="cards">
+        <div class="card">
+            <h3>Monthly</h3>
+            <div class="price">10 zł</div>
+            <p>30 days access</p>
+        </div>
+        <div class="card">
+            <h3>Yearly</h3>
+            <div class="price">15 zł</div>
+            <p>365 days access</p>
+        </div>
+        <div class="card">
+            <h3>Lifetime</h3>
+            <div class="price">20 zł</div>
+            <p>Permanent access</p>
+        </div>
     </div>
-</div>
+</section>
 
-<script>
-    const btnPl = document.getElementById('btn-pl');
-    const btnEn = document.getElementById('btn-en');
-    const sectionPl = document.getElementById('section-pl');
-    const sectionEn = document.getElementById('section-en');
+<section id="download" class="section">
+    <h2>Download</h2>
+    <p>Latest version available below:</p>
+    <a class="btn" href="#">Download Vanta Client</a>
+</section>
 
-    btnPl.addEventListener('click', () => {
-        btnPl.classList.add('active');
-        btnEn.classList.remove('active');
-        sectionPl.classList.add('active');
-        sectionEn.classList.remove('active');
-    });
+<section id="contact" class="section">
+    <h2>Contact</h2>
+    <p>Email: support@vantaclient.com</p>
+    <p>Discord: discord.gg/yourserver</p>
+</section>
 
-    btnEn.addEventListener('click', () => {
-        btnEn.classList.add('active');
-        btnPl.classList.remove('active');
-        sectionEn.classList.add('active');
-        sectionPl.classList.remove('active');
-    });
-</script>
+<footer>
+    © 2026 Vanta Client — All rights reserved.
+</footer>
+
 </body>
 </html>
