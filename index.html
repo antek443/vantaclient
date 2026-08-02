@@ -6,10 +6,23 @@
 <title>Vanta Client</title>
 
 <style>
+    :root {
+        --bg-main: #05060a;
+        --bg-card: #0d0f16;
+        --border-soft: #1a1d27;
+        --accent-blue: #7cf0ff;
+        --accent-green: #4ade80;
+        --text-soft: #cdd3ff;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
     body {
         margin: 0;
         font-family: 'Arial', sans-serif;
-        background: #05060a;
+        background: var(--bg-main);
         color: #fff;
         scroll-behavior: smooth;
     }
@@ -19,44 +32,44 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px 40px;
-        background: rgba(5, 6, 10, 0.85);
+        padding: 18px 40px;
+        background: rgba(5, 6, 10, 0.9);
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 100;
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid #1a1d27;
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border-soft);
     }
     nav a {
-        color: #cdd3ff;
+        color: var(--text-soft);
         text-decoration: none;
         margin: 0 15px;
-        font-size: 1rem;
+        font-size: 0.95rem;
         transition: 0.3s;
     }
     nav a:hover {
-        color: #7cf0ff;
+        color: var(--accent-blue);
     }
 
-    /* LOGO → DISCORD */
     .logo {
         font-size: 1.7rem;
         font-weight: bold;
-        color: #7cf0ff;
+        color: var(--accent-blue);
         cursor: pointer;
-        text-shadow: 0 0 12px #7cf0ff;
+        text-shadow: 0 0 12px var(--accent-blue);
         transition: 0.3s;
     }
     .logo:hover {
-        color: #4ade80;
-        text-shadow: 0 0 15px #4ade80;
+        color: var(--accent-green);
+        text-shadow: 0 0 15px var(--accent-green);
     }
 
-    /* HEADER */
+    /* HERO */
     header {
         height: 100vh;
-        background: radial-gradient(circle at top, #0d0f16 0%, #05060a 100%);
+        background:
+            radial-gradient(circle at top, #101322 0%, #05060a 55%, #020308 100%);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -68,32 +81,52 @@
         font-size: 4rem;
         margin-bottom: 10px;
         letter-spacing: 2px;
-        text-shadow: 0 0 25px #7cf0ff;
+        text-shadow: 0 0 25px var(--accent-blue);
     }
     header p {
-        font-size: 1.2rem;
-        max-width: 600px;
+        font-size: 1.15rem;
+        max-width: 650px;
         opacity: 0.85;
     }
     .btn {
         margin-top: 25px;
-        padding: 12px 25px;
-        background: linear-gradient(90deg, #7cf0ff, #4ade80);
+        padding: 12px 28px;
+        background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
         color: #05060a;
         border-radius: 8px;
         font-weight: bold;
         text-decoration: none;
         transition: 0.3s;
+        display: inline-block;
     }
     .btn:hover {
         opacity: 0.85;
+        transform: translateY(-1px);
     }
 
-    /* SECTIONS */
+    .hero-sub {
+        margin-top: 18px;
+        font-size: 0.95rem;
+        color: #9ca3c7;
+    }
+
+    /* GENERIC SECTION */
     .section {
-        padding: 80px 20px;
-        max-width: 1100px;
+        padding: 90px 20px;
+        max-width: 1200px;
         margin: auto;
+    }
+    .section h2 {
+        text-align: center;
+        margin-bottom: 35px;
+        font-size: 2rem;
+    }
+    .section-subtitle {
+        text-align: center;
+        margin-top: -20px;
+        margin-bottom: 40px;
+        font-size: 0.95rem;
+        color: #9ca3c7;
     }
 
     /* FEATURES */
@@ -104,18 +137,39 @@
         justify-content: center;
     }
     .feature-box {
-        background: #0d0f16;
+        background: var(--bg-card);
         padding: 25px;
-        border-radius: 10px;
-        width: 300px;
-        border: 1px solid #1a1d27;
-        text-align: center;
+        border-radius: 14px;
+        width: 310px;
+        border: 1px solid var(--border-soft);
+        text-align: left;
         transition: 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+    .feature-box::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top left, #7cf0ff22, transparent 60%);
+        opacity: 0;
+        transition: 0.3s;
+    }
+    .feature-box:hover::before {
+        opacity: 1;
     }
     .feature-box:hover {
         transform: translateY(-5px);
-        border-color: #7cf0ff;
-        box-shadow: 0 0 15px #7cf0ff55;
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 18px #7cf0ff33;
+    }
+    .feature-box h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    .feature-box p {
+        font-size: 0.95rem;
+        color: #b7c0e6;
     }
 
     /* LICENSES */
@@ -126,39 +180,147 @@
         justify-content: center;
     }
     .card {
-        background: #0d0f16;
+        background: var(--bg-card);
         padding: 25px;
-        border-radius: 10px;
+        border-radius: 14px;
         width: 280px;
-        border: 1px solid #1a1d27;
+        border: 1px solid var(--border-soft);
         text-align: center;
         transition: 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+    .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top, #4ade8030, transparent 65%);
+        opacity: 0;
+        transition: 0.3s;
+    }
+    .card:hover::before {
+        opacity: 1;
     }
     .card:hover {
         transform: translateY(-5px);
-        border-color: #4ade80;
-        box-shadow: 0 0 15px #4ade8055;
+        border-color: var(--accent-green);
+        box-shadow: 0 0 18px #4ade8033;
     }
     .price {
         font-size: 1.6rem;
-        color: #4ade80;
+        color: var(--accent-green);
         margin: 10px 0;
     }
+    .card p {
+        font-size: 0.95rem;
+        color: #b7c0e6;
+    }
 
-    /* CART BUTTON */
     .cart-btn {
         margin-top: 15px;
-        padding: 10px 20px;
-        background: linear-gradient(90deg, #7cf0ff, #4ade80);
+        padding: 10px 22px;
+        background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
         color: #05060a;
         border-radius: 6px;
         font-weight: bold;
         cursor: pointer;
         display: inline-block;
         transition: 0.3s;
+        border: none;
     }
     .cart-btn:hover {
         opacity: 0.85;
+        transform: translateY(-1px);
+    }
+
+    /* FAQ */
+    .faq-list {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .faq-item {
+        background: #080914;
+        border-radius: 10px;
+        border: 1px solid #151827;
+        padding: 15px 18px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .faq-item:hover {
+        border-color: var(--accent-blue);
+    }
+    .faq-question {
+        font-weight: bold;
+        font-size: 0.98rem;
+    }
+    .faq-answer {
+        font-size: 0.9rem;
+        color: #b7c0e6;
+        margin-top: 8px;
+        display: none;
+    }
+
+    /* SHOWCASE */
+    .showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+    }
+    .showcase-item {
+        background: var(--bg-card);
+        border-radius: 12px;
+        border: 1px solid var(--border-soft);
+        padding: 18px;
+        position: relative;
+        overflow: hidden;
+        transition: 0.3s;
+    }
+    .showcase-item::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at bottom right, #7cf0ff22, transparent 60%);
+        opacity: 0;
+        transition: 0.3s;
+    }
+    .showcase-item:hover::before {
+        opacity: 1;
+    }
+    .showcase-item:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent-blue);
+    }
+    .showcase-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+    .showcase-desc {
+        font-size: 0.9rem;
+        color: #b7c0e6;
+    }
+
+    /* CONTACT */
+    .contact-box {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #080914;
+        border-radius: 12px;
+        border: 1px solid #151827;
+        padding: 25px;
+        text-align: center;
+    }
+    .contact-box p {
+        font-size: 0.95rem;
+        color: #b7c0e6;
+    }
+    .contact-link {
+        color: var(--accent-blue);
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .contact-link:hover {
+        color: var(--accent-green);
     }
 
     /* FOOTER */
@@ -168,6 +330,19 @@
         background: #05060a;
         opacity: 0.7;
         font-size: 0.9rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        nav {
+            padding: 14px 20px;
+        }
+        header h1 {
+            font-size: 2.8rem;
+        }
+        header p {
+            font-size: 1rem;
+        }
     }
 </style>
 </head>
@@ -182,7 +357,8 @@
         <a href="#home">Home</a>
         <a href="#features">Features</a>
         <a href="#licenses">Licenses</a>
-        <a href="#download">Download</a>
+        <a href="#showcase">Showcase</a>
+        <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
     </div>
 </nav>
@@ -191,71 +367,35 @@
     <h1>Vanta Client</h1>
     <p>Advanced private client providing stability, performance and undetected gameplay enhancements.</p>
     <a class="btn" href="#licenses">Buy License</a>
+    <div class="hero-sub">
+        Join our Discord to purchase and manage your license: <strong>dc.gg/vantaclient</strong>
+    </div>
 </header>
 
 <section id="features" class="section">
     <h2>Features</h2>
+    <div class="section-subtitle">Focused on stability, stealth and full control.</div>
     <div class="features">
         <div class="feature-box">
             <h3>Undetected</h3>
-            <p>Constant updates and protection bypass.</p>
+            <p>Constant updates and protection bypass to keep your gameplay safe from detection.</p>
         </div>
         <div class="feature-box">
             <h3>Performance</h3>
-            <p>Optimized for maximum FPS and stability.</p>
+            <p>Optimized modules to ensure maximum FPS and smooth experience on most setups.</p>
         </div>
         <div class="feature-box">
             <h3>Customization</h3>
-            <p>Full control over modules and settings.</p>
+            <p>Full control over modules, visuals and behavior to match your playstyle.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Support</h3>
+            <p>Active Discord support and quick responses to issues and update requests.</p>
         </div>
     </div>
 </section>
 
 <section id="licenses" class="section">
     <h2>Licenses</h2>
+    <div class="section-subtitle">Choose your access level. Purchase is completed via Discord.</div>
     <div class="cards">
-        <div class="card">
-            <h3>Monthly</h3>
-            <div class="price">10 zł</div>
-            <p>30 days access</p>
-            <div class="cart-btn" onclick="buy('Monthly License - 10 zł')">Add to Cart</div>
-        </div>
-        <div class="card">
-            <h3>Yearly</h3>
-            <div class="price">15 zł</div>
-            <p>365 days access</p>
-            <div class="cart-btn" onclick="buy('Yearly License - 15 zł')">Add to Cart</div>
-        </div>
-        <div class="card">
-            <h3>Lifetime</h3>
-            <div class="price">20 zł</div>
-            <p>Permanent access</p>
-            <div class="cart-btn" onclick="buy('Lifetime License - 20 zł')">Add to Cart</div>
-        </div>
-    </div>
-</section>
-
-<section id="download" class="section">
-    <h2>Download</h2>
-    <p>Latest version available below:</p>
-    <a class="btn" href="#">Download Vanta Client</a>
-</section>
-
-<section id="contact" class="section">
-    <h2>Contact</h2>
-    <p>Discord: <a href="https://dc.gg/vantaclient" style="color:#7cf0ff;">Join Discord</a></p>
-</section>
-
-<footer>
-    © 2026 Vanta Client — All rights reserved.
-</footer>
-
-<script>
-function buy(item) {
-    alert("You selected: " + item + "\nTo complete your purchase, join our Discord.");
-    window.location.href = "https://dc.gg/vantaclient";
-}
-</script>
-
-</body>
-</html>
