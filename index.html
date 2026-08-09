@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grim Client — Oficjalny Panel i Strona Główna</title>
+    <title>VantaClient — Official Website & Panel</title>
     <style>
         :root {
-            --bg: #07080c;
-            --card-bg: rgba(15, 18, 28, 0.8);
-            --accent: #8b5cf6;
-            --accent-hover: #7c3aed;
-            --accent-glow: rgba(139, 92, 246, 0.35);
+            --bg: #050609;
+            --card-bg: rgba(13, 16, 26, 0.85);
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --accent-glow: rgba(99, 102, 241, 0.35);
             --text: #f3f4f6;
             --muted: #9ca3af;
             --border: rgba(255, 255, 255, 0.08);
@@ -22,6 +22,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -30,7 +31,7 @@
             line-height: 1.6;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.2) 0%, transparent 55%),
+                radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18) 0%, transparent 60%),
                 linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
@@ -42,7 +43,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 18px 8%;
-            background: rgba(7, 8, 12, 0.85);
+            background: rgba(5, 6, 9, 0.88);
             backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border);
             position: sticky;
@@ -51,11 +52,12 @@
         }
 
         .logo {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 900;
             letter-spacing: 1.5px;
             color: #fff;
             text-decoration: none;
+            cursor: pointer;
         }
 
         .logo span {
@@ -93,11 +95,12 @@
             font-weight: 600;
             text-decoration: none;
             border: 1px solid var(--border);
+            cursor: pointer;
             transition: all 0.2s;
         }
 
         .btn-panel:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .btn-buy {
@@ -108,6 +111,8 @@
             font-weight: 600;
             text-decoration: none;
             box-shadow: 0 0 15px var(--accent-glow);
+            cursor: pointer;
+            border: none;
             transition: all 0.2s;
         }
 
@@ -147,11 +152,11 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 3.6rem;
             font-weight: 900;
             line-height: 1.15;
             margin-bottom: 20px;
-            background: linear-gradient(180deg, #ffffff 40%, #c084fc 100%);
+            background: linear-gradient(180deg, #ffffff 40%, #818cf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -179,6 +184,8 @@
             text-decoration: none;
             transition: all 0.2s;
             font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-primary {
@@ -203,7 +210,7 @@
             transform: translateY(-2px);
         }
 
-        /* Sekcja Galerii ze Zdjęciami Użytkownika */
+        /* Sekcja Galerii */
         .showcase {
             max-width: 1200px;
             margin: 60px auto 90px;
@@ -242,7 +249,7 @@
 
         .gallery-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(139, 92, 246, 0.45);
+            border-color: rgba(99, 102, 241, 0.5);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
@@ -269,6 +276,87 @@
             font-size: 0.9rem;
         }
 
+        /* Sekcja Cennik (Pricing) */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 35px 25px;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pricing-card.popular {
+            border-color: var(--accent);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.2);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #fff;
+            margin: 15px 0 20px;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 8px 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .pricing-features li::before {
+            content: "✓ ";
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
         /* Sekcja Funkcji */
         .features-grid {
             display: grid;
@@ -282,12 +370,6 @@
             border-radius: 12px;
             padding: 28px;
             backdrop-filter: blur(10px);
-            transition: border-color 0.3s, transform 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: rgba(139, 92, 246, 0.4);
-            transform: translateY(-4px);
         }
 
         .feature-icon {
@@ -306,29 +388,132 @@
             font-size: 0.9rem;
         }
 
-        /* FAQ */
-        .faq-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-            gap: 20px;
+        /* Modal (Okno logowania i zakupu) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
 
-        .faq-item {
-            background: var(--card-bg);
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #0d101a;
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 440px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
 
-        .faq-item h4 {
-            font-size: 1.05rem;
-            margin-bottom: 8px;
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
             color: #fff;
         }
 
-        .faq-item p {
+        .modal-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .modal-tab {
+            background: none;
+            border: none;
             color: var(--muted);
-            font-size: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding-bottom: 5px;
+        }
+
+        .modal-tab.active {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent);
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .modal-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .alert-box {
+            display: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
         }
 
         .section {
@@ -341,7 +526,7 @@
         footer {
             border-top: 1px solid var(--border);
             padding: 50px 20px 30px;
-            background: #040508;
+            background: #030406;
             color: var(--muted);
             font-size: 0.88rem;
         }
@@ -399,86 +584,138 @@
 <body>
 
     <header>
-        <a href="#" class="logo">GRIM<span>CLIENT</span>.PL</a>
+        <div class="logo" onclick="window.scrollTo(0,0)">VANTA<span>CLIENT</span></div>
         <nav>
             <a href="#galeria">Galeria</a>
+            <a href="#cennik">Cennik</a>
             <a href="#funkcje">Funkcje</a>
             <a href="#faq">FAQ</a>
-            <a href="https://discord.gg/grimclient" target="_blank">Discord</a>
         </nav>
         <div class="nav-buttons">
-            <a href="https://sklep.grimclient.pl/pl/login" class="btn-panel">Panel / Zaloguj</a>
-            <a href="#zakup" class="btn-buy">Kup Licencję</a>
+            <button class="btn-panel" onclick="openLoginModal('login')">Panel / Logowanie</button>
+            <a href="#cennik" class="btn-buy">Kup Licencję</a>
         </div>
     </header>
 
     <main>
         <section class="hero">
             <div class="status-badge">
-                <span class="status-dot"></span> SYSTEMY SPRAWNE (MC 1.8 - 1.21)
+                <span class="status-dot"></span> VANTA CLIENT v5.2 ONLINE (MC 1.8 - 1.21)
             </div>
-            <h1>Grim Client PL</h1>
-            <p>Zarządzaj swoimi licencjami, konfiguracjami i modyfikacjami w dedykowanym panelu. Zapewnij sobie najwyższą płynność rozgrywki.</p>
+            <h1>VantaClient</h1>
+            <p>Zapewnij sobie przewagę i najwyższą optymalizację. Autorski klient z wbudowaną chmurą ustawień oraz intuicyjnym interfejsem.</p>
             <div class="hero-cta">
-                <a href="#zakup" class="btn btn-primary">Przejdź do Sklepu</a>
-                <a href="https://sklep.grimclient.pl/pl/login" class="btn btn-secondary">Zaloguj się do Panelu</a>
+                <a href="#cennik" class="btn btn-primary">Zobacz Cennik</a>
+                <button class="btn btn-secondary" onclick="openLoginModal('login')">Zaloguj do Panelu</button>
             </div>
         </section>
 
         <section id="galeria" class="showcase">
             <div class="section-header">
-                <h2>Galeria i Zrzuty Ekranu</h2>
-                <p>Zobacz jak wygląda interfejs oraz moduły na żywo w grze</p>
+                <h2>Galeria i Interfejs</h2>
+                <p>Zobacz oryginalny wygląd oprogramowania VantaClient w grze</p>
             </div>
 
             <div class="gallery-grid">
                 <div class="gallery-card">
-                    <img src="image_e9ee54.jpg" alt="ClickGUI GrimClient">
+                    <img src="image_e9ee54.jpg" alt="VantaClient ClickGUI">
                     <div class="gallery-card-body">
-                        <h3>Nowoczesny Interfejs ClickGUI</h3>
-                        <p>Przejrzyste menu nawigacji z błyskawicznym dostępem do wszystkich modułów i szukajki.</p>
+                        <h3>Dedykowane ClickGUI</h3>
+                        <p>Przejrzysty układ modułów, wyszukiwarka oraz natychmiastowa reakcja na zmiany ustawień.</p>
                     </div>
                 </div>
 
                 <div class="gallery-card">
-                    <img src="image_e9ee1c.png" alt="HUD & Render Modules">
+                    <img src="image_e9ee1c.png" alt="VantaClient HUD">
                     <div class="gallery-card-body">
                         <h3>Personalizacja HUD</h3>
-                        <p>W pełni modyfikowalne elementy na ekranie, wskaźniki klatek, ping oraz aktywne funkcje.</p>
+                        <p>Swobodne przesuwanie elementów na ekranie, liczniki FPS, ping oraz wskaźniki stanu.</p>
                     </div>
                 </div>
 
                 <div class="gallery-card">
-                    <img src="image_e9eddb.png" alt="Config Cloud & Settings">
+                    <img src="image_e9eddb.png" alt="VantaClient Cloud">
                     <div class="gallery-card-body">
-                        <h3>Chmura Konfiguracji</h3>
-                        <p>Szybkie zapisywanie i wczytywanie zestawów ustawień dopasowanych pod konkretne serwery.</p>
+                        <h3>System Chmury Ustawień</h3>
+                        <p>Zapisuj swoje zestawy modyfikacji w chmurze i wczytuj je na dowolnym komputerze.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cennik" class="section">
+            <div class="section-header">
+                <h2>Cennik Licencji VantaClient</h2>
+                <p>Wybierz plan dopasowany do Twoich potrzeb</p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div>
+                        <h3>Vanta Start</h3>
+                        <div class="pricing-price">29.99 <span>PLN / 30 dni</span></div>
+                        <ul class="pricing-features">
+                            <li>Pełny dostęp do VantaClient</li>
+                            <li>Dostęp do chmury ustawień</li>
+                            <li>Wsparcie dla wersji MC 1.8 - 1.21</li>
+                            <li>Standardowe aktualizacje</li>
+                        </ul>
+                    </div>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Start - 29.99 PLN')">Kup Teraz</button>
+                </div>
+
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Najpopularniejszy</div>
+                    <div>
+                        <h3>Vanta Pro</h3>
+                        <div class="pricing-price">69.99 <span>PLN / 90 dni</span></div>
+                        <ul class="pricing-features">
+                            <li>Wszystkie funkcje wersji Start</li>
+                            <li>Priorytetowe pobieranie aktualizacji</li>
+                            <li>Unikalna ranga na Discordzie</li>
+                            <li>Dostęp do prywatnych konfigów</li>
+                        </ul>
+                    </div>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Pro - 69.99 PLN')">Kup Teraz</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div>
+                        <h3>Vanta Lifetime</h3>
+                        <div class="pricing-price">149.99 <span>PLN / Na zawsze</span></div>
+                        <ul class="pricing-features">
+                            <li>Wieczysty dostęp do programu</li>
+                            <li>Dostęp do wersji testowych (Beta)</li>
+                            <li>Priorytetowa pomoc techniczna 24/7</li>
+                            <li>Ekskluzywne peleryny i kosmetyki</li>
+                        </ul>
+                    </div>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Lifetime - 149.99 PLN')">Kup Teraz</button>
                 </div>
             </div>
         </section>
 
         <section id="funkcje" class="section">
             <div class="section-header">
-                <h2>Główne Funkcje Grim Client</h2>
-                <p>Najwyższy poziom optymalizacji i stabilności działania</p>
+                <h2>Dlaczego VantaClient?</h2>
+                <p>Stworzony z myślą o najwyższych osiągach i niezawodności</p>
             </div>
 
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
-                    <h3>Zarządzanie Licencjami</h3>
-                    <p>Wygodne aktywowanie i odnawianie licencji bezpośrednio z poziomu panelu klienta.</p>
+                    <h3>Brak Spadków FPS</h3>
+                    <p>Zaawansowany silnik renderowania minimalizuje zużycie pamięci RAM i procesora.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">☁️</div>
-                    <h3>Cloud Sync</h3>
-                    <p>Twórz i udostępniaj własne konfigi w chmurze bez ryzyka utraty plików lokalnych.</p>
+                    <div class="feature-icon">🔒</div>
+                    <h3>Bezpieczny Panel</h3>
+                    <p>Zarządzaj swoją licencją i aktywacjami urządzeń w prostym panelu użytkownika.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Stały Rozwój</h3>
-                    <p>Regularne aktualizacje dostosowane do zmian w silnikach gier i sieciach serwerowych.</p>
+                    <div class="feature-icon">🔄</div>
+                    <h3>Automatyczne Aktualizacje</h3>
+                    <p>Klient sam aktualizuje się do najnowszej wersji bez potrzeby pobierania plików na nowo.</p>
                 </div>
             </div>
         </section>
@@ -486,52 +723,187 @@
         <section id="faq" class="section">
             <div class="section-header">
                 <h2>Najczęściej Zadawane Pytania</h2>
-                <p>Odpowiedzi na najczęstsze wątpliwości dotyczące zakupu i instalacji</p>
             </div>
 
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <h4>Jak pobrać klienta po zakupie?</h4>
-                    <p>Po sfinalizowaniu płatności w sklepie zaloguj się do panelu na `sklep.grimclient.pl`, gdzie znajdziesz bezpośredni odnośnik do pobrania najnowszej wersji instalatora.</p>
+            <div class="gallery-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
+                <div class="feature-card">
+                    <h3>Jak aktywować licencję?</h3>
+                    <p>Po zakupie w wybranej płatności otrzymasz klucz licencyjny. Zaloguj się do swojego panelu i wpisz go w zakładce "Aktywacja".</p>
                 </div>
-                <div class="faq-item">
-                    <h4>Jakie wersje są wspierane?</h4>
-                    <p>Wspieramy szeroki zakres wersji od Minecraft 1.8 aż do najnowszych wydań 1.21+.</p>
+                <div class="feature-card">
+                    <h3>Jakie formy płatności są akceptowane?</h3>
+                    <p>Akceptujemy szybkie płatności BLIK, PaySafeCard, Przelew online oraz Kryptowaluty.</p>
                 </div>
             </div>
         </section>
     </main>
 
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModals()">&times;</button>
+            <div class="modal-tabs">
+                <button class="modal-tab active" id="tabLogin" onclick="switchTab('login')">Logowanie</button>
+                <button class="modal-tab" id="tabRegister" onclick="switchTab('register')">Rejestracja</button>
+            </div>
+
+            <div id="alertBox" class="alert-box"></div>
+
+            <form id="formLogin" onsubmit="handleAuth(event, 'login')">
+                <div class="form-group">
+                    <label>Nazwa użytkownika / E-mail</label>
+                    <input type="text" placeholder="Twoja nazwa lub email" required>
+                </div>
+                <div class="form-group">
+                    <label>Hasło</label>
+                    <input type="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="modal-btn">Zaloguj się do Panelu</button>
+            </form>
+
+            <form id="formRegister" style="display:none;" onsubmit="handleAuth(event, 'register')">
+                <div class="form-group">
+                    <label>Nazwa użytkownika</label>
+                    <input type="text" placeholder="Wybierz login" required>
+                </div>
+                <div class="form-group">
+                    <label>Adres E-mail</label>
+                    <input type="email" placeholder="twoj@email.pl" required>
+                </div>
+                <div class="form-group">
+                    <label>Hasło</label>
+                    <input type="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="modal-btn">Utwórz Konto</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModals()">&times;</button>
+            <h3 style="margin-bottom: 5px;" id="checkoutPlanTitle">Zamówienie Licencji</h3>
+            <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 20px;">Wybraną licencję otrzymasz natychmiast po opłaceniu.</p>
+
+            <div id="checkoutAlert" class="alert-box"></div>
+
+            <form onsubmit="handleCheckout(event)">
+                <div class="form-group">
+                    <label>Metoda Płatności</label>
+                    <select required>
+                        <option value="blik">BLIK (Szybka Płatność)</option>
+                        <option value="psc">PaySafeCard (PSC)</option>
+                        <option value="przelew">Szybki Przelew Bankowy</option>
+                        <option value="crypto">Kryptowaluty (USDT/BTC)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>E-mail do wysyłki klucza</label>
+                    <input type="email" placeholder="twój-email@domena.pl" required>
+                </div>
+                <button type="submit" class="modal-btn">Przejdź do Płatności</button>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-container">
             <div class="footer-brand">
-                <h3>Grim Client Poland</h3>
-                <p>Oficjalny serwis informacyjny oraz panel użytkowników.</p>
+                <h3>VantaClient Official</h3>
+                <p>Niezależne oprogramowanie użytkowe dla graczy.</p>
             </div>
             <div class="footer-links">
                 <h4>Nawigacja</h4>
                 <ul>
                     <li><a href="#galeria">Galeria</a></li>
+                    <li><a href="#cennik">Cennik</a></li>
                     <li><a href="#funkcje">Funkcje</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="https://sklep.grimclient.pl/pl/login">Panel Klienta</a></li>
+                    <li><a href="javascript:void(0)" onclick="openLoginModal('login')">Panel Użytkownika</a></li>
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Społeczność</h4>
+                <h4>Kontakt i Pomoc</h4>
                 <ul>
-                    <li><a href="https://discord.gg/grimclient" target="_blank">Discord</a></li>
-                    <li><a href="mailto:kontakt@grimclient.pl">Kontakt E-mail</a></li>
+                    <li><a href="javascript:void(0)" onclick="alert('Pomoc techniczna: pomoc@vantaclient.pl')">Kontakt E-mail</a></li>
+                    <li><a href="#faq">FAQ</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-legal">
-            <p>&copy; GrimClient.pl / GrimClient.eu | Wszystkie prawa zastrzeżone.</p>
-            <p style="margin-top: 4px;">GRM NOWAK WÓJCIK SPÓŁKA JAWNA | NIP: 5273197719 | REGON: 543573161 | KRS: 0001213549</p>
-            <p style="margin-top: 8px;">GrimClient nie jest powiązany z firmą Mojang AB.</p>
+            <p>&copy; 2026 VantaClient.pl | Wszystkie prawa zastrzeżone.</p>
+            <p style="margin-top: 6px;">VantaClient jest niezależnym projektem i nie jest powiązany z firmą Mojang AB.</p>
         </div>
     </footer>
 
+    <script>
+        function openLoginModal(tab) {
+            document.getElementById('loginModal').classList.add('active');
+            switchTab(tab);
+        }
+
+        function openCheckoutModal(planName) {
+            document.getElementById('checkoutPlanTitle').innerText = 'Zamówienie: ' + planName;
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function closeModals() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('checkoutModal').classList.remove('active');
+            document.getElementById('alertBox').style.display = 'none';
+            document.getElementById('checkoutAlert').style.display = 'none';
+        }
+
+        function switchTab(tab) {
+            const loginForm = document.getElementById('formLogin');
+            const regForm = document.getElementById('formRegister');
+            const tabL = document.getElementById('tabLogin');
+            const tabR = document.getElementById('tabRegister');
+            const alertBox = document.getElementById('alertBox');
+            
+            alertBox.style.display = 'none';
+
+            if(tab === 'login') {
+                loginForm.style.display = 'block';
+                regForm.style.display = 'none';
+                tabL.classList.add('active');
+                tabR.classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                regForm.style.display = 'block';
+                tabR.classList.add('active');
+                tabL.classList.remove('active');
+            }
+        }
+
+        function handleAuth(e, type) {
+            e.preventDefault();
+            const alertBox = document.getElementById('alertBox');
+            alertBox.className = 'alert-box alert-success';
+            alertBox.style.display = 'block';
+            
+            if(type === 'login') {
+                alertBox.innerText = 'Zalogowano pomyślnie! Ładowanie panelu VantaClient...';
+            } else {
+                alertBox.innerText = 'Konto zostało utworzone! Możesz się teraz zalogować.';
+            }
+
+            setTimeout(() => {
+                if(type === 'login') closeModals();
+            }, 1800);
+        }
+
+        function handleCheckout(e) {
+            e.preventDefault();
+            const alertBox = document.getElementById('checkoutAlert');
+            alertBox.className = 'alert-box alert-success';
+            alertBox.style.display = 'block';
+            alertBox.innerText = 'Generowanie bramki płatności... Przekierowanie do bezpiecznej płatności.';
+
+            setTimeout(() => {
+                alert('Dziękujemy! Po opłaceniu klucz zostanie wysłany na podany e-mail.');
+                closeModals();
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
