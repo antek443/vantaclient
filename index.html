@@ -3,44 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyClient - Nowoczesny Klient Gamingowy</title>
+    <title>Grim Client — Oficjalny Panel i Strona Główna</title>
     <style>
         :root {
-            --bg-color: #0b0d12;
-            --card-bg: rgba(22, 27, 38, 0.7);
-            --accent-color: #8b5cf6;
+            --bg: #07080c;
+            --card-bg: rgba(15, 18, 28, 0.8);
+            --accent: #8b5cf6;
+            --accent-hover: #7c3aed;
             --accent-glow: rgba(139, 92, 246, 0.35);
-            --text-color: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-color: rgba(255, 255, 255, 0.08);
+            --text: #f3f4f6;
+            --muted: #9ca3af;
+            --border: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
-        }
-
-        /* Tło z efektowną poświatą */
-        .glow-bg {
-            position: absolute;
-            top: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1;
-            filter: blur(60px);
-            pointer-events: none;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.2) 0%, transparent 55%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
         }
 
         /* Nawigacja */
@@ -48,69 +41,131 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 10%;
-            border-bottom: 1px solid var(--border-color);
-            backdrop-filter: blur(12px);
+            padding: 18px 8%;
+            background: rgba(7, 8, 12, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(11, 13, 18, 0.8);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
             color: #fff;
             text-decoration: none;
         }
 
         .logo span {
-            color: var(--accent-color);
+            color: var(--accent);
         }
 
-        nav ul {
+        nav {
             display: flex;
-            list-style: none;
+            align-items: center;
             gap: 25px;
         }
 
         nav a {
-            color: var(--text-muted);
+            color: var(--muted);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            font-size: 0.95rem;
+            transition: color 0.2s;
         }
 
         nav a:hover {
-            color: var(--text-color);
+            color: #fff;
         }
 
-        /* Sekcja Główna (Hero) */
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-panel {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .btn-panel:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-buy {
+            background: var(--accent);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 0 15px var(--accent-glow);
+            transition: all 0.2s;
+        }
+
+        .btn-buy:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
         .hero {
             text-align: center;
-            padding: 120px 20px 80px;
-            max-width: 850px;
+            padding: 90px 20px 60px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--success);
+        }
+
         .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.15;
             margin-bottom: 20px;
-            line-height: 1.2;
-            background: linear-gradient(180deg, #ffffff 0%, #a5b4fc 100%);
+            background: linear-gradient(180deg, #ffffff 40%, #c084fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
+            font-size: 1.15rem;
+            color: var(--muted);
             margin-bottom: 35px;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .btn-group {
+        .hero-cta {
             display: flex;
             justify-content: center;
             gap: 15px;
@@ -118,30 +173,29 @@
         }
 
         .btn {
-            padding: 14px 32px;
+            padding: 14px 30px;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: inline-block;
+            transition: all 0.2s;
+            font-size: 0.95rem;
         }
 
         .btn-primary {
-            background-color: var(--accent-color);
+            background: var(--accent);
             color: #fff;
             box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .btn-primary:hover {
+            background: var(--accent-hover);
             transform: translateY(-2px);
-            box-shadow: 0 0 30px var(--accent-glow);
         }
 
         .btn-secondary {
             background: rgba(255, 255, 255, 0.04);
             color: #fff;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
         }
 
         .btn-secondary:hover {
@@ -149,94 +203,334 @@
             transform: translateY(-2px);
         }
 
-        /* Sekcja Funkcji */
-        .features {
-            max-width: 1100px;
-            margin: 40px auto 80px;
+        /* Sekcja Galerii ze Zdjęciami Użytkownika */
+        .showcase {
+            max-width: 1200px;
+            margin: 60px auto 90px;
             padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+
+        .section-header p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(139, 92, 246, 0.45);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .gallery-card-body {
+            padding: 22px;
+        }
+
+        .gallery-card-body h3 {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .gallery-card-body p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* Sekcja Funkcji */
+        .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
 
-        .card {
+        .feature-card {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 30px;
+            border: 1px solid var(--border);
             border-radius: 12px;
+            padding: 28px;
             backdrop-filter: blur(10px);
-            transition: transform 0.3s, border-color 0.3s;
+            transition: border-color 0.3s, transform 0.3s;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
+        .feature-card:hover {
             border-color: rgba(139, 92, 246, 0.4);
+            transform: translateY(-4px);
         }
 
-        .card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 12px;
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
             color: #fff;
         }
 
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+        .feature-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* FAQ */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 20px;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .faq-item h4 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .faq-item p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: 70px auto;
+            padding: 0 20px;
         }
 
         /* Stopka */
         footer {
+            border-top: 1px solid var(--border);
+            padding: 50px 20px 30px;
+            background: #040508;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-brand h3 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .footer-links h4 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-legal {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
             text-align: center;
-            padding: 40px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            color: #6b7280;
         }
     </style>
 </head>
 <body>
 
-    <div class="glow-bg"></div>
-
     <header>
-        <a href="#" class="logo">GRIM<span>CLIENT</span></a>
+        <a href="#" class="logo">GRIM<span>CLIENT</span>.PL</a>
         <nav>
-            <ul>
-                <li><a href="#features">Funkcje</a></li>
-                <li><a href="#download">Pobierz</a></li>
-                <li><a href="#discord">Discord</a></li>
-            </ul>
+            <a href="#galeria">Galeria</a>
+            <a href="#funkcje">Funkcje</a>
+            <a href="#faq">FAQ</a>
+            <a href="https://discord.gg/grimclient" target="_blank">Discord</a>
         </nav>
+        <div class="nav-buttons">
+            <a href="https://sklep.grimclient.pl/pl/login" class="btn-panel">Panel / Zaloguj</a>
+            <a href="#zakup" class="btn-buy">Kup Licencję</a>
+        </div>
     </header>
 
     <main>
         <section class="hero">
-            <h1>Zaawansowana Wydajność i Płynność Rozgrywki</h1>
-            <p>Zaprojektowany z myślą o maksymalnej optymalizacji, braku opóźnień oraz nowoczesnym interfejsie użytkownika.</p>
-            <div class="btn-group">
-                <a href="#download" class="btn btn-primary">Pobierz Teraz</a>
-                <a href="#discord" class="btn btn-secondary">Społeczność Discord</a>
+            <div class="status-badge">
+                <span class="status-dot"></span> SYSTEMY SPRAWNE (MC 1.8 - 1.21)
+            </div>
+            <h1>Grim Client PL</h1>
+            <p>Zarządzaj swoimi licencjami, konfiguracjami i modyfikacjami w dedykowanym panelu. Zapewnij sobie najwyższą płynność rozgrywki.</p>
+            <div class="hero-cta">
+                <a href="#zakup" class="btn btn-primary">Przejdź do Sklepu</a>
+                <a href="https://sklep.grimclient.pl/pl/login" class="btn btn-secondary">Zaloguj się do Panelu</a>
             </div>
         </section>
 
-        <section id="features" class="features">
-            <div class="card">
-                <h3>⚡ Niskie Opóźnienia</h3>
-                <p>Zoptymalizowany kod zapewnia najwyższą płynność klatek (FPS) i szybki czas reakcji.</p>
+        <section id="galeria" class="showcase">
+            <div class="section-header">
+                <h2>Galeria i Zrzuty Ekranu</h2>
+                <p>Zobacz jak wygląda interfejs oraz moduły na żywo w grze</p>
             </div>
-            <div class="card">
-                <h3>🎨 Nowoczesny HUD</h3>
-                <p>Czysty i przejrzysty interfejs z możliwością pełnej personalizacji pod swoje preferencje.</p>
+
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <img src="image_e9ee54.jpg" alt="ClickGUI GrimClient">
+                    <div class="gallery-card-body">
+                        <h3>Nowoczesny Interfejs ClickGUI</h3>
+                        <p>Przejrzyste menu nawigacji z błyskawicznym dostępem do wszystkich modułów i szukajki.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="image_e9ee1c.png" alt="HUD & Render Modules">
+                    <div class="gallery-card-body">
+                        <h3>Personalizacja HUD</h3>
+                        <p>W pełni modyfikowalne elementy na ekranie, wskaźniki klatek, ping oraz aktywne funkcje.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="image_e9eddb.png" alt="Config Cloud & Settings">
+                    <div class="gallery-card-body">
+                        <h3>Chmura Konfiguracji</h3>
+                        <p>Szybkie zapisywanie i wczytywanie zestawów ustawień dopasowanych pod konkretne serwery.</p>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <h3>🛡️ Stabilność i Bezpieczeństwo</h3>
-                <p>Częste aktualizacje dbające o stabilne działanie bez awarii i błędów.</p>
+        </section>
+
+        <section id="funkcje" class="section">
+            <div class="section-header">
+                <h2>Główne Funkcje Grim Client</h2>
+                <p>Najwyższy poziom optymalizacji i stabilności działania</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Zarządzanie Licencjami</h3>
+                    <p>Wygodne aktywowanie i odnawianie licencji bezpośrednio z poziomu panelu klienta.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">☁️</div>
+                    <h3>Cloud Sync</h3>
+                    <p>Twórz i udostępniaj własne konfigi w chmurze bez ryzyka utraty plików lokalnych.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Stały Rozwój</h3>
+                    <p>Regularne aktualizacje dostosowane do zmian w silnikach gier i sieciach serwerowych.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="section">
+            <div class="section-header">
+                <h2>Najczęściej Zadawane Pytania</h2>
+                <p>Odpowiedzi na najczęstsze wątpliwości dotyczące zakupu i instalacji</p>
+            </div>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>Jak pobrać klienta po zakupie?</h4>
+                    <p>Po sfinalizowaniu płatności w sklepie zaloguj się do panelu na `sklep.grimclient.pl`, gdzie znajdziesz bezpośredni odnośnik do pobrania najnowszej wersji instalatora.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Jakie wersje są wspierane?</h4>
+                    <p>Wspieramy szeroki zakres wersji od Minecraft 1.8 aż do najnowszych wydań 1.21+.</p>
+                </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 GrimClient. Wszystkie prawa zastrzeżone.</p>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>Grim Client Poland</h3>
+                <p>Oficjalny serwis informacyjny oraz panel użytkowników.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Nawigacja</h4>
+                <ul>
+                    <li><a href="#galeria">Galeria</a></li>
+                    <li><a href="#funkcje">Funkcje</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="https://sklep.grimclient.pl/pl/login">Panel Klienta</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Społeczność</h4>
+                <ul>
+                    <li><a href="https://discord.gg/grimclient" target="_blank">Discord</a></li>
+                    <li><a href="mailto:kontakt@grimclient.pl">Kontakt E-mail</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-legal">
+            <p>&copy; GrimClient.pl / GrimClient.eu | Wszystkie prawa zastrzeżone.</p>
+            <p style="margin-top: 4px;">GRM NOWAK WÓJCIK SPÓŁKA JAWNA | NIP: 5273197719 | REGON: 543573161 | KRS: 0001213549</p>
+            <p style="margin-top: 8px;">GrimClient nie jest powiązany z firmą Mojang AB.</p>
+        </div>
     </footer>
 
 </body>
