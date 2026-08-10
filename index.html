@@ -968,4 +968,46 @@
 
         function handleAuth(e, type) {
             e.preventDefault();
-            const alertBox
+            const alertBox = document.getElementById('alertBox');
+            alertBox.className = 'alert-box alert-success';
+            alertBox.style.display = 'block';
+            alertBox.innerText = type === 'login' ? 'Zalogowano pomyślnie!' : 'Rejestracja udana!';
+            setTimeout(() => { if(type === 'login') closeModals(); }, 1500);
+        }
+
+        function handleCheckout(e) {
+            e.preventDefault();
+            const alertBox = document.getElementById('checkoutAlert');
+            alertBox.className = 'alert-box alert-success';
+            alertBox.style.display = 'block';
+            alertBox.innerText = 'Przekierowywanie do płatności...';
+            setTimeout(() => { closeModals(); }, 1500);
+        }
+
+        /* Skrypty Panelu Admina */
+        function generateKey() {
+            const plan = document.getElementById('genPlan').value;
+            const randHex = () => Math.random().toString(36).substring(2, 6).toUpperCase();
+            const newKey = `VANTA-${plan}-${randHex()}-${randHex()}-${randHex()}`;
+            document.getElementById('generatedKeyResult').innerText = "Wygenerowano klucz: " + newKey;
+        }
+
+        function toggleBan(btn) {
+            const row = btn.closest('tr');
+            const statusSpan = row.querySelector('.badge-status');
+
+            if (statusSpan.classList.contains('badge-active')) {
+                statusSpan.className = 'badge-status badge-banned';
+                statusSpan.innerText = 'Zbanowany';
+                btn.style.background = 'var(--success)';
+                btn.innerText = 'Odbanuj';
+            } else {
+                statusSpan.className = 'badge-status badge-active';
+                statusSpan.innerText = 'Aktywna';
+                btn.style.background = 'var(--danger)';
+                btn.innerText = 'Zbanuj';
+            }
+        }
+    </script>
+</body>
+</html>
