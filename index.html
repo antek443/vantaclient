@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VantaClient — Official Website & Admin Panel</title>
+    <title>VantaClient — Next-Gen Minecraft Client</title>
     <style>
         :root {
-            --bg: #050609;
-            --card-bg: rgba(13, 16, 26, 0.85);
+            --bg: #040508;
+            --card-bg: rgba(13, 16, 28, 0.75);
             --accent: #6366f1;
             --accent-hover: #4f46e5;
-            --accent-glow: rgba(99, 102, 241, 0.35);
+            --accent-glow: rgba(99, 102, 241, 0.4);
             --danger: #ef4444;
             --danger-hover: #dc2626;
             --text: #f3f4f6;
             --muted: #9ca3af;
-            --border: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.1);
             --success: #10b981;
         }
 
@@ -32,21 +32,62 @@
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18) 0%, transparent 60%),
-                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
+            position: relative;
         }
 
-        /* Nawigacja */
+        /* Dynamic Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Toast Notifications Container */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: #0d101a;
+            border: 1px solid var(--border);
+            padding: 14px 20px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            border-left: 4px solid var(--accent);
+        }
+
+        .toast.success { border-left-color: var(--success); }
+        .toast.danger { border-left-color: var(--danger); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 18px 8%;
-            background: rgba(5, 6, 9, 0.88);
-            backdrop-filter: blur(14px);
+            background: rgba(4, 5, 8, 0.85);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -56,15 +97,16 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 900;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             color: #fff;
             text-decoration: none;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .logo span {
-            color: var(--accent);
-        }
+        .logo span { color: var(--accent); }
 
         nav {
             display: flex;
@@ -80,9 +122,7 @@
             transition: color 0.2s;
         }
 
-        nav a:hover {
-            color: #fff;
-        }
+        nav a:hover { color: #fff; }
 
         .nav-buttons {
             display: flex;
@@ -116,8 +156,9 @@
         }
 
         .btn-admin:hover {
-            background: rgba(239, 68, 68, 0.25);
+            background: rgba(239, 68, 68, 0.3);
             color: #fff;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
         }
 
         .btn-buy {
@@ -141,7 +182,7 @@
         /* Hero */
         .hero {
             text-align: center;
-            padding: 90px 20px 60px;
+            padding: 100px 20px 80px;
             max-width: 900px;
             margin: 0 auto;
         }
@@ -151,7 +192,7 @@
             align-items: center;
             gap: 8px;
             background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.25);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             padding: 6px 16px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -166,20 +207,26 @@
             background: var(--success);
             border-radius: 50%;
             box-shadow: 0 0 8px var(--success);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
 
         .hero h1 {
-            font-size: 3.6rem;
+            font-size: 3.8rem;
             font-weight: 900;
             line-height: 1.15;
             margin-bottom: 20px;
-            background: linear-gradient(180deg, #ffffff 40%, #818cf8 100%);
+            background: linear-gradient(180deg, #ffffff 30%, #818cf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             color: var(--muted);
             margin-bottom: 35px;
             max-width: 680px;
@@ -196,7 +243,7 @@
 
         .btn {
             padding: 14px 30px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 700;
             text-decoration: none;
             transition: all 0.2s;
@@ -208,7 +255,7 @@
         .btn-primary {
             background: var(--accent);
             color: #fff;
-            box-shadow: 0 0 20px var(--accent-glow);
+            box-shadow: 0 0 25px var(--accent-glow);
         }
 
         .btn-primary:hover {
@@ -217,20 +264,20 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.05);
             color: #fff;
             border: 1px solid var(--border);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
         }
 
-        /* Galeria */
-        .showcase {
+        /* Features Section */
+        .section {
             max-width: 1200px;
-            margin: 60px auto 90px;
+            margin: 80px auto;
             padding: 0 20px;
         }
 
@@ -240,15 +287,52 @@
         }
 
         .section-header h2 {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 800;
         }
 
         .section-header p {
             color: var(--muted);
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 14px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* Galeria */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -318,7 +402,7 @@
 
         .pricing-card.popular {
             border-color: var(--accent);
-            box-shadow: 0 0 25px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.25);
         }
 
         .popular-badge {
@@ -368,6 +452,40 @@
             margin-right: 8px;
         }
 
+        /* FAQ Accordion */
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 18px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .faq-answer {
+            padding: 0 20px 18px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question {
+            color: var(--accent);
+        }
+
         /* Modale */
         .modal-overlay {
             position: fixed;
@@ -375,7 +493,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
@@ -392,14 +510,14 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             width: 90%;
-            max-width: 460px;
+            max-width: 480px;
             padding: 30px;
             position: relative;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.7);
         }
 
         .modal-large {
-            max-width: 850px;
+            max-width: 900px;
         }
 
         .modal-close {
@@ -413,9 +531,7 @@
             cursor: pointer;
         }
 
-        .modal-close:hover {
-            color: #fff;
-        }
+        .modal-close:hover { color: #fff; }
 
         .modal-tabs {
             display: flex;
@@ -481,30 +597,7 @@
             transition: background 0.2s;
         }
 
-        .modal-btn:hover {
-            background: var(--accent-hover);
-        }
-
-        .alert-box {
-            display: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .alert-success {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .alert-danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
+        .modal-btn:hover { background: var(--accent-hover); }
 
         /* Admin Panel Styles */
         .admin-stats {
@@ -561,15 +654,8 @@
             font-weight: 700;
         }
 
-        .badge-active {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-        }
-
-        .badge-banned {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-        }
+        .badge-active { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .badge-banned { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
 
         .btn-action {
             padding: 5px 10px;
@@ -578,28 +664,18 @@
             font-size: 0.75rem;
             font-weight: 700;
             cursor: pointer;
+            margin-right: 5px;
         }
 
-        .btn-ban {
-            background: var(--danger);
-            color: #fff;
-        }
-
-        .btn-ban:hover {
-            background: var(--danger-hover);
-        }
-
-        .section {
-            max-width: 1200px;
-            margin: 70px auto;
-            padding: 0 20px;
-        }
+        .btn-ban { background: var(--danger); color: #fff; }
+        .btn-ban:hover { background: var(--danger-hover); }
+        .btn-unban { background: var(--success); color: #fff; }
 
         /* Stopka */
         footer {
             border-top: 1px solid var(--border);
             padding: 50px 20px 30px;
-            background: #030406;
+            background: #020305;
             color: var(--muted);
             font-size: 0.88rem;
         }
@@ -614,33 +690,12 @@
             margin-bottom: 30px;
         }
 
-        .footer-brand h3 {
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .footer-links h4 {
-            color: #fff;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 8px;
-        }
-
-        .footer-links a {
-            color: var(--muted);
-            text-decoration: none;
-        }
-
-        .footer-links a:hover {
-            color: #fff;
-        }
+        .footer-brand h3 { color: #fff; margin-bottom: 10px; }
+        .footer-links h4 { color: #fff; margin-bottom: 12px; font-size: 0.95rem; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a { color: var(--muted); text-decoration: none; }
+        .footer-links a:hover { color: #fff; }
 
         .footer-legal {
             max-width: 1200px;
@@ -655,18 +710,24 @@
 </head>
 <body>
 
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="toast-container"></div>
+
     <header>
-        <div class="logo" onclick="window.scrollTo(0,0)">VANTA<span>CLIENT</span></div>
+        <div class="logo" onclick="window.scrollTo(0,0)">
+            <span>⚡</span> VANTA<span>CLIENT</span>
+        </div>
         <nav>
+            <a href="#funkcje">Funkcje</a>
             <a href="#galeria">Galeria</a>
             <a href="#cennik">Cennik</a>
-            <a href="#funkcje">Funkcje</a>
             <a href="#faq">FAQ</a>
         </nav>
         <div class="nav-buttons">
             <button class="btn-admin" onclick="openAdminModal()">👑 Panel Admina</button>
             <button class="btn-panel" onclick="openLoginModal('login')">Panel / Logowanie</button>
-            <button class="btn-buy" onclick="openCheckoutModal('Vanta Licencja')">Aktywuj / Kup Licencję</button>
+            <button class="btn-buy" onclick="openCheckoutModal('Aktywacja Kodem')">🔑 Wpisz Kod / Kup</button>
         </div>
     </header>
 
@@ -675,18 +736,48 @@
             <div class="status-badge">
                 <span class="status-dot"></span> VANTA CLIENT v5.2 ONLINE (MC 1.8 - 1.21)
             </div>
-            <h1>VantaClient</h1>
-            <p>Zapewnij sobie przewagę i najwyższą optymalizację. Autorski klient z wbudowaną chmurą ustawień oraz intuicyjnym interfejsem.</p>
+            <h1>Najwyższa Wydajność.<br>Brak Kompromisów.</h1>
+            <p>Zdominuj rozgrywkę dzięki autorskiemu silnikowi optymalizacji FPS, wbudowanej chmurze ustawień i nowoczesnemu ClickGUI.</p>
             <div class="hero-cta">
                 <a href="#cennik" class="btn btn-primary">Zobacz Cennik</a>
-                <button class="btn btn-secondary" onclick="openCheckoutModal('Aktywacja Klucza')">🔑 Wpisz Kod Licencji</button>
+                <button class="btn btn-secondary" onclick="openCheckoutModal('Aktywacja Kodem')">🔑 Aktywuj Kod Licencji</button>
             </div>
         </section>
 
-        <section id="galeria" class="showcase">
+        <section id="funkcje" class="section">
+            <div class="section-header">
+                <h2>Dlaczego VantaClient?</h2>
+                <p>Narzędzia zaprojektowane z myślą o najwyższych osiągach</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>FPS Boost Engine</h3>
+                    <p>Modyfikacje renderowania zwiększające płynność gry nawet o 200% na słabszych komputerach.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">☁️</div>
+                    <h3>Chmura Ustawień</h3>
+                    <p>Zapisuj swoje profile modów online i wczytuj je jednym kliknięciem z dowolnego miejsca.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Nowoczesny Hud & GUI</h3>
+                    <p>Intuicyjne menu ustawień oraz w pełni personalizowany układ elementów na ekranie.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Brak Opóźnień (Low Latency)</h3>
+                    <p>Zoptymalizowany pakiet sieciowy zredukowany do minimum dla płynniejszej walki.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="galeria" class="section">
             <div class="section-header">
                 <h2>Galeria i Interfejs</h2>
-                <p>Zobacz oryginalny wygląd oprogramowania VantaClient w grze</p>
+                <p>Zobacz jak wygląda VantaClient bezpośrednio w grze</p>
             </div>
 
             <div class="gallery-grid">
@@ -718,8 +809,8 @@
 
         <section id="cennik" class="section">
             <div class="section-header">
-                <h2>Cennik / Aktywacja VantaClient</h2>
-                <p>Kup licencję lub wpisz posiadany kod</p>
+                <h2>Cennik i Aktywacja</h2>
+                <p>Kup licencję lub użyj kodu wygenerowanego w Panelu Admina</p>
             </div>
 
             <div class="pricing-grid">
@@ -733,7 +824,7 @@
                             <li>Wsparcie dla wersji MC 1.8 - 1.21</li>
                         </ul>
                     </div>
-                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Start')">Kup lub Aktywuj Kodem</button>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Start')">Wybież / Aktywuj</button>
                 </div>
 
                 <div class="pricing-card popular">
@@ -747,7 +838,7 @@
                             <li>Unikalna ranga na Discordzie</li>
                         </ul>
                     </div>
-                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Pro')">Kup lub Aktywuj Kodem</button>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Pro')">Wybierz / Aktywuj</button>
                 </div>
 
                 <div class="pricing-card">
@@ -760,7 +851,29 @@
                             <li>Priorytetowa pomoc techniczna 24/7</li>
                         </ul>
                     </div>
-                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Lifetime')">Kup lub Aktywuj Kodem</button>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Lifetime')">Wybierz / Aktywuj</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="section">
+            <div class="section-header">
+                <h2>Często Zadawane Pytania (FAQ)</h2>
+                <p>Wszystko, co musisz wiedzieć przed użyciem</p>
+            </div>
+
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">Jak aktywować klucz licencyjny z Panelu Admina? <span>+</span></div>
+                    <div class="faq-answer">Kliknij przycisk "🔑 Wpisz Kod / Kup" w menu górnym, wybierz zakładkę "🔑 Aktywuj Kod Licencji", wpisz swój wygenerowany klucz i zatwierdź. System natychmiast odblokuje licencję!</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">Czy VantaClient działa na nowszych wersjach Minecraft? <span>+</span></div>
+                    <div class="faq-answer">Tak! VantaClient wspiera wszystkie wersje Minecraft od 1.8.9 aż do najnowszego wydania 1.21.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">Jakie jest hasło do Panelu Administratora? <span>+</span></div>
+                    <div class="faq-answer">Domyślne hasło dostępowe do panelu zarządzania wynosi: <code>admin123</code>.</div>
                 </div>
             </div>
         </section>
@@ -773,8 +886,6 @@
                 <button class="modal-tab active" id="tabLogin" onclick="switchTab('login')">Logowanie</button>
                 <button class="modal-tab" id="tabRegister" onclick="switchTab('register')">Rejestracja</button>
             </div>
-
-            <div id="alertBox" class="alert-box"></div>
 
             <form id="formLogin" onsubmit="handleAuth(event, 'login')">
                 <div class="form-group">
@@ -791,7 +902,7 @@
             <form id="formRegister" style="display:none;" onsubmit="handleAuth(event, 'register')">
                 <div class="form-group">
                     <label>Nazwa użytkownika</label>
-                    <input type="text" placeholder="Wybierz login" required>
+                    <input type="text" id="regUsername" placeholder="Wybierz login" required>
                 </div>
                 <div class="form-group">
                     <label>E-mail</label>
@@ -811,25 +922,23 @@
             <button class="modal-close" onclick="closeModals()">&times;</button>
             
             <div class="modal-tabs">
-                <button class="modal-tab active" id="tabRedeem" onclick="switchCheckoutTab('redeem')">🔑 Wpisz Kod Licencji</button>
-                <button class="modal-tab" id="tabBuy" onclick="switchCheckoutTab('buy')">💳 Kup Licencję</button>
+                <button class="modal-tab active" id="tabRedeem" onclick="switchCheckoutTab('redeem')">🔑 Aktywuj Kod Licencji</button>
+                <button class="modal-tab" id="tabBuy" onclick="switchCheckoutTab('buy')">💳 Kup Płatnością</button>
             </div>
-
-            <div id="checkoutAlert" class="alert-box"></div>
 
             <form id="formRedeem" onsubmit="handleRedeemCode(event)">
                 <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 15px;">
-                    Masz wygenerowany kod z panelu admina lub od resellera? Wpisz go poniżej, aby odebrać licencję.
+                    Posiadasz kod z Panelu Admina? Wpisz go poniżej, aby przypisać licencję.
                 </p>
                 <div class="form-group">
-                    <label>Kod Licencyjny (np. VANTA-LIFE-XXXX-YYYY)</label>
+                    <label>Kod Licencyjny</label>
                     <input type="text" id="licenseCodeInput" placeholder="VANTA-XXXX-XXXX-XXXX" style="font-family: monospace; text-transform: uppercase;" required>
                 </div>
                 <div class="form-group">
-                    <label>Twój Nick w grze / E-mail</label>
-                    <input type="text" placeholder="Wpisz nick lub e-mail" required>
+                    <label>Twój Nick w grze</label>
+                    <input type="text" id="redeemUserNick" placeholder="Wpisz Twój nick" required>
                 </div>
-                <button type="submit" class="modal-btn" style="background:var(--success)">Aktywuj Licencję</button>
+                <button type="submit" class="modal-btn" style="background:var(--success)">Zweryfikuj i Aktywuj Kod</button>
             </form>
 
             <form id="formBuy" style="display:none;" onsubmit="handleCheckout(event)">
@@ -860,11 +969,11 @@
             <div class="admin-stats">
                 <div class="stat-card">
                     <h4>Zarejestrowani Użytkownicy</h4>
-                    <div class="value" id="statUsers">1,284</div>
+                    <div class="value" id="statUsers">3</div>
                 </div>
                 <div class="stat-card">
-                    <h4>Aktywne Licencje</h4>
-                    <div class="value" id="statLicenses">942</div>
+                    <h4>Wygenerowane Klucze</h4>
+                    <div class="value" id="statLicenses">0</div>
                 </div>
                 <div class="stat-card">
                     <h4>Przychód (Ten miesiąc)</h4>
@@ -873,8 +982,8 @@
             </div>
 
             <div style="background: rgba(255,255,255,0.02); padding:20px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;">
-                <h3 style="font-size:1.05rem; margin-bottom:12px;">🔑 Generator Kluczy Licencyjnych</h3>
-                <p style="color:var(--muted); font-size:0.85rem; margin-bottom:12px;">Wygeneruj kod i przekaż go użytkownikowi do wpisania w zakładce aktywacji.</p>
+                <h3 style="font-size:1.05rem; margin-bottom:6px;">🔑 Generator Kluczy Licencyjnych</h3>
+                <p style="color:var(--muted); font-size:0.85rem; margin-bottom:12px;">Wygenerowany kod automatycznie trafi do bazy poprawnych kluczy.</p>
                 <div style="display:flex; gap:12px; flex-wrap:wrap;">
                     <select id="genPlan" style="flex:1; min-width:180px; padding:10px; background:#121624; border:1px solid var(--border); color:#fff; border-radius:8px;">
                         <option value="30D">Vanta Start (30 Dni)</option>
@@ -883,11 +992,15 @@
                     </select>
                     <button class="modal-btn" style="width:auto; margin-top:0; padding:10px 20px;" onclick="generateKey()">Wygeneruj Klucz</button>
                 </div>
-                <div id="generatedKeyResult" style="margin-top:12px; font-family:monospace; font-size:1rem; color:var(--accent); font-weight:bold; user-select:all;"></div>
+                <div id="generatedKeyResult" style="margin-top:12px; font-family:monospace; font-size:1.05rem; color:var(--accent); font-weight:bold; user-select:all;"></div>
             </div>
 
-            <h3 style="font-size:1.05rem; margin-bottom:10px;">👥 Zarządzanie Kontami</h3>
-            <div style="max-height: 250px; overflow-y: auto;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="font-size:1.05rem;">👥 Zarządzanie Kontami</h3>
+                <input type="text" id="userSearchInput" placeholder="🔍 Szukaj gracza..." oninput="filterUsers()" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:6px; color:#fff; font-size:0.85rem;">
+            </div>
+
+            <div style="max-height: 220px; overflow-y: auto;">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -898,25 +1011,7 @@
                         </tr>
                     </thead>
                     <tbody id="adminUserList">
-                        <tr>
-                            <td>NicoPL</td>
-                            <td>Vanta Lifetime</td>
-                            <td><span class="badge-status badge-active">Aktywna</span></td>
-                            <td><button class="btn-action btn-ban" onclick="toggleBan(this)">Zbanuj</button></td>
-                        </tr>
-                        <tr>
-                            <td>MasteR_PvP</td>
-                            <td>Vanta Pro (90d)</td>
-                            <td><span class="badge-status badge-active">Aktywna</span></td>
-                            <td><button class="btn-action btn-ban" onclick="toggleBan(this)">Zbanuj</button></td>
-                        </tr>
-                        <tr>
-                            <td>Shadow_99</td>
-                            <td>Vanta Start (30d)</td>
-                            <td><span class="badge-status badge-banned">Zbanowany</span></td>
-                            <td><button class="btn-action btn-ban" style="background:var(--success)" onclick="toggleBan(this)">Odbanuj</button></td>
-                        </tr>
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
@@ -926,18 +1021,18 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <h3>VantaClient Official</h3>
-                <p>Niezależne oprogramowanie użytkowe dla graczy.</p>
+                <p>Niezależne oprogramowanie użytkowe stworzone dla profesjonalistów.</p>
             </div>
             <div class="footer-links">
                 <h4>Nawigacja</h4>
                 <ul>
+                    <li><a href="#funkcje">Funkcje</a></li>
                     <li><a href="#galeria">Galeria</a></li>
                     <li><a href="#cennik">Cennik</a></li>
-                    <li><a href="#funkcje">Funkcje</a></li>
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Admin</h4>
+                <h4>Administrator</h4>
                 <ul>
                     <li><a href="javascript:void(0)" onclick="openAdminModal()">Zaloguj do Panelu Admina</a></li>
                 </ul>
@@ -950,9 +1045,43 @@
     </footer>
 
     <script>
-        // HASŁO DO PANELA ADMINA: admin123
+        // STAN APLIKACJI (Baza Danych w Pamięci Podręcznej)
         const ADMIN_PASSWORD = "admin123";
+        let generatedKeysList = [];
+        
+        let usersList = [
+            { id: 1, name: "NicoPL", plan: "Vanta Lifetime", banned: false },
+            { id: 2, name: "MasteR_PvP", plan: "Vanta Pro (90d)", banned: false },
+            { id: 3, name: "Shadow_99", plan: "Vanta Start (30d)", banned: true }
+        ];
 
+        // INICJALIZACJA STRONY
+        document.addEventListener("DOMContentLoaded", () => {
+            initCanvasBackground();
+            renderUserTable();
+        });
+
+        // TOAST NOTIFICATIONS
+        function showToast(msg, type = "info") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            toast.innerHTML = type === "success" ? `✅ ${msg}` : (type === "danger" ? `❌ ${msg}` : `ℹ️ ${msg}`);
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
+        }
+
+        // FAQ ACCORDION
+        function toggleFaq(element) {
+            element.classList.toggle("active");
+            const span = element.querySelector(".faq-question span");
+            span.innerText = element.classList.contains("active") ? "−" : "+";
+        }
+
+        // MODALE
         function openLoginModal(tab) {
             document.getElementById('loginModal').classList.add('active');
             switchTab(tab);
@@ -967,17 +1096,14 @@
             const pwd = prompt("🔐 Wprowadź hasło administratora:");
             if (pwd === ADMIN_PASSWORD) {
                 document.getElementById('adminModal').classList.add('active');
+                showToast("Zalogowano do Panelu Administratora", "success");
             } else if (pwd !== null) {
-                alert("❌ Nieprawidłowe hasło administratora!");
+                showToast("Nieprawidłowe hasło administratora!", "danger");
             }
         }
 
         function closeModals() {
-            document.getElementById('loginModal').classList.remove('active');
-            document.getElementById('checkoutModal').classList.remove('active');
-            document.getElementById('adminModal').classList.remove('active');
-            document.getElementById('alertBox').style.display = 'none';
-            document.getElementById('checkoutAlert').style.display = 'none';
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
         }
 
         function switchTab(tab) {
@@ -1004,9 +1130,6 @@
             const buyForm = document.getElementById('formBuy');
             const tabRedeem = document.getElementById('tabRedeem');
             const tabBuy = document.getElementById('tabBuy');
-            const alertBox = document.getElementById('checkoutAlert');
-            
-            alertBox.style.display = 'none';
 
             if(type === 'redeem') {
                 redeemForm.style.display = 'block';
@@ -1021,68 +1144,163 @@
             }
         }
 
+        // LOGIKA AKTYWACJI KLUCZA (Weryfikuje klucze stworzone w Adminie)
         function handleRedeemCode(e) {
             e.preventDefault();
-            const codeInput = document.getElementById('licenseCodeInput').value.trim();
-            const alertBox = document.getElementById('checkoutAlert');
+            const codeInput = document.getElementById('licenseCodeInput').value.trim().toUpperCase();
+            const userNick = document.getElementById('redeemUserNick').value.trim();
 
-            if(codeInput.length < 5) {
-                alertBox.className = 'alert-box alert-danger';
-                alertBox.innerText = 'Podano nieprawidłowy kod licencji!';
-                alertBox.style.display = 'block';
-                return;
-            }
+            const keyIndex = generatedKeysList.findIndex(item => item.code === codeInput && !item.used);
 
-            alertBox.className = 'alert-box alert-success';
-            alertBox.style.display = 'block';
-            alertBox.innerText = '✅ Kod poprawny! Licencja została pomyślnie aktywowana na Twoim koncie.';
+            if (keyIndex !== -1) {
+                // Klucz Prawidłowy!
+                generatedKeysList[keyIndex].used = true;
+                const planName = generatedKeysList[keyIndex].plan;
 
-            setTimeout(() => {
+                // Dodaj użytkownika do listy
+                usersList.push({
+                    id: Date.now(),
+                    name: userNick,
+                    plan: "Vanta " + planName,
+                    banned: false
+                });
+
+                renderUserTable();
+                showToast(`Pomyślnie aktywowano plan ${planName} dla użytkownika ${userNick}!`, "success");
                 closeModals();
-            }, 2000);
+                document.getElementById('licenseCodeInput').value = "";
+                document.getElementById('redeemUserNick').value = "";
+            } else {
+                showToast("Nieprawidłowy lub wykorzystany kod licencyjny!", "danger");
+            }
         }
 
         function handleAuth(e, type) {
             e.preventDefault();
-            const alertBox = document.getElementById('alertBox');
-            alertBox.className = 'alert-box alert-success';
-            alertBox.style.display = 'block';
-            alertBox.innerText = type === 'login' ? 'Zalogowano pomyślnie!' : 'Rejestracja udana!';
-            setTimeout(() => { if(type === 'login') closeModals(); }, 1500);
+            if(type === 'register') {
+                const name = document.getElementById('regUsername').value;
+                usersList.push({ id: Date.now(), name: name, plan: "Brak Licencji", banned: false });
+                renderUserTable();
+            }
+            showToast(type === 'login' ? 'Zalogowano pomyślnie!' : 'Rejestracja udana!', "success");
+            closeModals();
         }
 
         function handleCheckout(e) {
             e.preventDefault();
-            const alertBox = document.getElementById('checkoutAlert');
-            alertBox.className = 'alert-box alert-success';
-            alertBox.style.display = 'block';
-            alertBox.innerText = 'Przekierowywanie do płatności...';
+            showToast('Przekierowywanie do bramki płatności...', 'info');
             setTimeout(() => { closeModals(); }, 1500);
         }
 
-        /* Skrypty Panelu Admina */
+        // AKCJE PANELU ADMINA
         function generateKey() {
             const plan = document.getElementById('genPlan').value;
             const randHex = () => Math.random().toString(36).substring(2, 6).toUpperCase();
-            const newKey = `VANTA-${plan}-${randHex()}-${randHex()}-${randHex()}`;
-            document.getElementById('generatedKeyResult').innerText = "Wygenerowano kod: " + newKey;
+            const newKey = `VANTA-${plan}-${randHex()}-${randHex()}`;
+
+            generatedKeysList.push({ code: newKey, plan: plan, used: false });
+            
+            document.getElementById('generatedKeyResult').innerText = "Wygenerowany Kod: " + newKey;
+            document.getElementById('statLicenses').innerText = generatedKeysList.length;
+
+            showToast("Wygenerowano nowy klucz licencyjny!", "success");
         }
 
-        function toggleBan(btn) {
-            const row = btn.closest('tr');
-            const statusSpan = row.querySelector('.badge-status');
+        function renderUserTable(filterQuery = "") {
+            const tbody = document.getElementById('adminUserList');
+            tbody.innerHTML = "";
 
-            if (statusSpan.classList.contains('badge-active')) {
-                statusSpan.className = 'badge-status badge-banned';
-                statusSpan.innerText = 'Zbanowany';
-                btn.style.background = 'var(--success)';
-                btn.innerText = 'Odbanuj';
-            } else {
-                statusSpan.className = 'badge-status badge-active';
-                statusSpan.innerText = 'Aktywna';
-                btn.style.background = 'var(--danger)';
-                btn.innerText = 'Zbanuj';
+            const filtered = usersList.filter(u => u.name.toLowerCase().includes(filterQuery.toLowerCase()));
+
+            filtered.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><b>${user.name}</b></td>
+                    <td>${user.plan}</td>
+                    <td><span class="badge-status ${user.banned ? 'badge-banned' : 'badge-active'}">${user.banned ? 'Zbanowany' : 'Aktywna'}</span></td>
+                    <td>
+                        <button class="btn-action ${user.banned ? 'btn-unban' : 'btn-ban'}" onclick="toggleBanUser(${user.id})">${user.banned ? 'Odbanuj' : 'Zbanuj'}</button>
+                        <button class="btn-action" style="background:#4b5563; color:#fff;" onclick="deleteUser(${user.id})">Usuń</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('statUsers').innerText = usersList.length;
+        }
+
+        function toggleBanUser(userId) {
+            const user = usersList.find(u => u.id === userId);
+            if(user) {
+                user.banned = !user.banned;
+                renderUserTable();
+                showToast(`Zmieniono status użytkownika ${user.name}`, "info");
             }
+        }
+
+        function deleteUser(userId) {
+            usersList = usersList.filter(u => u.id !== userId);
+            renderUserTable();
+            showToast("Usunięto użytkownika.", "danger");
+        }
+
+        function filterUsers() {
+            const q = document.getElementById('userSearchInput').value;
+            renderUserTable(q);
+        }
+
+        // BACKGROUND ANIMATED CANVAS (Particles)
+        function initCanvasBackground() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const particles = Array.from({ length: 45 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 1
+            }));
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach((p, i) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(99, 102, 241, 0.4)';
+                    ctx.fill();
+
+                    // Connect lines
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - dist / 120)})`;
+                            ctx.stroke();
+                        }
+                    }
+                });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
         }
     </script>
 </body>
