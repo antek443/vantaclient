@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VantaClient — Next-Gen Minecraft Client</title>
+    <title>VantaClient — Ultimate Minecraft Performance Client</title>
     <style>
         :root {
-            --bg: #040508;
-            --card-bg: rgba(13, 16, 28, 0.75);
+            --bg: #030407;
+            --card-bg: rgba(10, 13, 22, 0.85);
             --accent: #6366f1;
             --accent-hover: #4f46e5;
             --accent-glow: rgba(99, 102, 241, 0.4);
@@ -15,8 +15,10 @@
             --danger-hover: #dc2626;
             --text: #f3f4f6;
             --muted: #9ca3af;
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(99, 102, 241, 0.4);
             --success: #10b981;
+            --warning: #f59e0b;
         }
 
         * {
@@ -35,7 +37,22 @@
             position: relative;
         }
 
-        /* Dynamic Canvas Background */
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f293d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* Animated Canvas Background */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -46,47 +63,49 @@
             pointer-events: none;
         }
 
-        /* Toast Notifications Container */
+        /* Toast Notifications */
         #toast-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 24px;
+            right: 24px;
             z-index: 9999;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .toast {
-            background: #0d101a;
+            background: rgba(13, 16, 28, 0.95);
             border: 1px solid var(--border);
             padding: 14px 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             color: #fff;
             font-size: 0.9rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.7);
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            gap: 12px;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
             border-left: 4px solid var(--accent);
         }
 
         .toast.success { border-left-color: var(--success); }
         .toast.danger { border-left-color: var(--danger); }
+        .toast.warning { border-left-color: var(--warning); }
 
         @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
+            from { transform: translateX(120%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
 
-        /* Header */
+        /* Header Navigation */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 18px 8%;
-            background: rgba(4, 5, 8, 0.85);
+            background: rgba(3, 4, 7, 0.85);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
             position: sticky;
@@ -103,7 +122,7 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .logo span { color: var(--accent); }
@@ -111,7 +130,7 @@
         nav {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 28px;
         }
 
         nav a {
@@ -132,12 +151,13 @@
         .btn-panel {
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            padding: 8px 18px;
+            padding: 9px 18px;
             border-radius: 8px;
             font-weight: 600;
             border: 1px solid var(--border);
             cursor: pointer;
             transition: all 0.2s;
+            font-size: 0.9rem;
         }
 
         .btn-panel:hover {
@@ -145,33 +165,35 @@
         }
 
         .btn-admin {
-            background: rgba(239, 68, 68, 0.15);
+            background: rgba(239, 68, 68, 0.12);
             color: #f87171;
-            padding: 8px 18px;
+            padding: 9px 18px;
             border-radius: 8px;
             font-weight: 600;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.25);
             cursor: pointer;
             transition: all 0.2s;
+            font-size: 0.9rem;
         }
 
         .btn-admin:hover {
-            background: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.25);
             color: #fff;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
         }
 
         .btn-buy {
             background: var(--accent);
             color: #fff;
-            padding: 8px 20px;
+            padding: 9px 22px;
             border-radius: 8px;
             font-weight: 600;
             text-decoration: none;
-            box-shadow: 0 0 15px var(--accent-glow);
+            box-shadow: 0 0 20px var(--accent-glow);
             cursor: pointer;
             border: none;
             transition: all 0.2s;
+            font-size: 0.9rem;
         }
 
         .btn-buy:hover {
@@ -179,11 +201,11 @@
             transform: translateY(-2px);
         }
 
-        /* Hero */
+        /* Hero Section */
         .hero {
             text-align: center;
-            padding: 100px 20px 80px;
-            max-width: 900px;
+            padding: 110px 20px 80px;
+            max-width: 950px;
             margin: 0 auto;
         }
 
@@ -191,9 +213,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 6px 16px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 6px 18px;
             border-radius: 20px;
             font-size: 0.85rem;
             color: var(--success);
@@ -206,20 +228,20 @@
             height: 8px;
             background: var(--success);
             border-radius: 50%;
-            box-shadow: 0 0 8px var(--success);
-            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse 1.6s infinite;
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+            50% { opacity: 0.4; transform: scale(1.25); }
         }
 
         .hero h1 {
-            font-size: 3.8rem;
+            font-size: 4rem;
             font-weight: 900;
-            line-height: 1.15;
-            margin-bottom: 20px;
+            line-height: 1.12;
+            margin-bottom: 22px;
             background: linear-gradient(180deg, #ffffff 30%, #818cf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -228,8 +250,8 @@
         .hero p {
             font-size: 1.2rem;
             color: var(--muted);
-            margin-bottom: 35px;
-            max-width: 680px;
+            margin-bottom: 38px;
+            max-width: 720px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -237,12 +259,12 @@
         .hero-cta {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 16px;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 14px 30px;
+            padding: 14px 32px;
             border-radius: 10px;
             font-weight: 700;
             text-decoration: none;
@@ -264,31 +286,33 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             color: #fff;
             border: 1px solid var(--border);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
             transform: translateY(-2px);
         }
 
-        /* Features Section */
+        /* Sections General */
         .section {
             max-width: 1200px;
-            margin: 80px auto;
+            margin: 90px auto;
             padding: 0 20px;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 45px;
+            margin-bottom: 50px;
         }
 
         .section-header h2 {
-            font-size: 2.4rem;
+            font-size: 2.5rem;
             font-weight: 800;
+            margin-bottom: 8px;
         }
 
         .section-header p {
@@ -296,43 +320,125 @@
             font-size: 1rem;
         }
 
+        /* Grid Feature Cards */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 22px;
         }
 
         .feature-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 25px;
-            border-radius: 14px;
+            padding: 28px;
+            border-radius: 16px;
             backdrop-filter: blur(10px);
-            transition: transform 0.3s, border-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
             border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
 
         .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 12px;
+            font-size: 2.2rem;
+            margin-bottom: 14px;
         }
 
         .feature-card h3 {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             color: #fff;
             margin-bottom: 8px;
         }
 
         .feature-card p {
             color: var(--muted);
-            font-size: 0.9rem;
+            font-size: 0.92rem;
         }
 
-        /* Galeria */
+        /* Interactive Mods Preview */
+        .mods-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+        }
+
+        .mods-filter {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .mod-search {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+        }
+
+        .mod-search:focus {
+            border-color: var(--accent);
+        }
+
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .mod-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mod-info h4 { font-size: 0.95rem; color: #fff; }
+        .mod-info span { font-size: 0.8rem; color: var(--muted); }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--accent);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+        }
+
+        /* Gallery Grid */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -342,16 +448,16 @@
         .gallery-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
             backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .gallery-card:hover {
             transform: translateY(-6px);
             border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
         }
 
         .gallery-card img {
@@ -377,7 +483,7 @@
             font-size: 0.9rem;
         }
 
-        /* Cennik */
+        /* Pricing Grid */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -389,8 +495,8 @@
         .pricing-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 35px 25px;
+            border-radius: 18px;
+            padding: 38px 28px;
             text-align: center;
             position: relative;
             backdrop-filter: blur(10px);
@@ -402,7 +508,7 @@
 
         .pricing-card.popular {
             border-color: var(--accent);
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 0 35px rgba(99, 102, 241, 0.25);
         }
 
         .popular-badge {
@@ -412,15 +518,16 @@
             transform: translateX(-50%);
             background: var(--accent);
             color: #fff;
-            padding: 4px 14px;
+            padding: 4px 16px;
             border-radius: 12px;
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .pricing-price {
-            font-size: 2.5rem;
+            font-size: 2.6rem;
             font-weight: 900;
             color: #fff;
             margin: 15px 0 20px;
@@ -439,9 +546,9 @@
         }
 
         .pricing-features li {
-            padding: 8px 0;
+            padding: 10px 0;
             color: var(--muted);
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
@@ -452,17 +559,61 @@
             margin-right: 8px;
         }
 
+        /* Testimonials / Reviews */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .review-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 14px;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .review-avatar {
+            width: 42px;
+            height: 42px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .review-text {
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
         /* FAQ Accordion */
         .faq-item {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            margin-bottom: 12px;
+            border-radius: 12px;
+            margin-bottom: 14px;
             overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(255,255,255,0.2);
         }
 
         .faq-question {
-            padding: 18px 20px;
+            padding: 20px 24px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
@@ -472,19 +623,15 @@
         }
 
         .faq-answer {
-            padding: 0 20px 18px;
+            padding: 0 24px 20px;
             color: var(--muted);
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             display: none;
+            line-height: 1.6;
         }
 
-        .faq-item.active .faq-answer {
-            display: block;
-        }
-
-        .faq-item.active .faq-question {
-            color: var(--accent);
-        }
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-question { color: var(--accent); }
 
         /* Modale */
         .modal-overlay {
@@ -501,33 +648,33 @@
             z-index: 1000;
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
         .modal {
-            background: #0d101a;
+            background: #0b0e17;
             border: 1px solid var(--border);
-            border-radius: 16px;
+            border-radius: 18px;
             width: 90%;
             max-width: 480px;
-            padding: 30px;
+            padding: 32px;
             position: relative;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
         .modal-large {
-            max-width: 900px;
+            max-width: 960px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-close {
             position: absolute;
-            top: 15px;
-            right: 20px;
+            top: 18px;
+            right: 22px;
             background: none;
             border: none;
             color: var(--muted);
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             cursor: pointer;
         }
 
@@ -535,10 +682,10 @@
 
         .modal-tabs {
             display: flex;
-            gap: 15px;
+            gap: 18px;
             margin-bottom: 25px;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
+            padding-bottom: 12px;
         }
 
         .modal-tab {
@@ -548,7 +695,7 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            padding-bottom: 5px;
+            padding-bottom: 6px;
         }
 
         .modal-tab.active {
@@ -585,13 +732,13 @@
 
         .modal-btn {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             background: var(--accent);
             color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.98rem;
             cursor: pointer;
             margin-top: 10px;
             transition: background 0.2s;
@@ -599,24 +746,49 @@
 
         .modal-btn:hover { background: var(--accent-hover); }
 
-        /* Admin Panel Styles */
+        /* Admin Panel Styling */
+        .admin-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .admin-nav-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .admin-nav-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
         .admin-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
             margin-bottom: 25px;
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 10px;
+            padding: 18px;
+            border-radius: 12px;
             text-align: center;
         }
 
         .stat-card h4 {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--muted);
             text-transform: uppercase;
         }
@@ -625,18 +797,18 @@
             font-size: 1.8rem;
             font-weight: 800;
             color: #fff;
-            margin-top: 5px;
+            margin-top: 6px;
         }
 
         .admin-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.9rem;
+            margin-top: 10px;
+            font-size: 0.88rem;
         }
 
         .admin-table th, .admin-table td {
-            padding: 12px;
+            padding: 12px 14px;
             text-align: left;
             border-bottom: 1px solid var(--border);
         }
@@ -648,33 +820,43 @@
         }
 
         .badge-status {
-            padding: 3px 8px;
+            padding: 3px 10px;
             border-radius: 12px;
             font-size: 0.75rem;
             font-weight: 700;
         }
 
-        .badge-active { background: rgba(16, 185, 129, 0.2); color: var(--success); }
-        .badge-banned { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        .badge-active { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .badge-banned { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+        .badge-used { background: rgba(156, 163, 175, 0.15); color: var(--muted); }
 
         .btn-action {
-            padding: 5px 10px;
+            padding: 5px 12px;
             border-radius: 6px;
             border: none;
             font-size: 0.75rem;
             font-weight: 700;
             cursor: pointer;
-            margin-right: 5px;
+            margin-right: 4px;
+        }
+
+        .btn-copy {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+        }
+        .btn-copy:hover {
+            background: var(--accent);
+            color: #fff;
         }
 
         .btn-ban { background: var(--danger); color: #fff; }
-        .btn-ban:hover { background: var(--danger-hover); }
         .btn-unban { background: var(--success); color: #fff; }
 
-        /* Stopka */
+        /* Footer */
         footer {
             border-top: 1px solid var(--border);
-            padding: 50px 20px 30px;
+            padding: 60px 20px 30px;
             background: #020305;
             color: var(--muted);
             font-size: 0.88rem;
@@ -686,15 +868,15 @@
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 30px;
+            gap: 35px;
+            margin-bottom: 35px;
         }
 
-        .footer-brand h3 { color: #fff; margin-bottom: 10px; }
-        .footer-links h4 { color: #fff; margin-bottom: 12px; font-size: 0.95rem; }
+        .footer-brand h3 { color: #fff; margin-bottom: 12px; }
+        .footer-links h4 { color: #fff; margin-bottom: 14px; font-size: 0.95rem; }
         .footer-links ul { list-style: none; }
         .footer-links li { margin-bottom: 8px; }
-        .footer-links a { color: var(--muted); text-decoration: none; }
+        .footer-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
         .footer-links a:hover { color: #fff; }
 
         .footer-legal {
@@ -720,8 +902,10 @@
         </div>
         <nav>
             <a href="#funkcje">Funkcje</a>
+            <a href="#mody">Modyfikacje</a>
             <a href="#galeria">Galeria</a>
             <a href="#cennik">Cennik</a>
+            <a href="#opinie">Opinie</a>
             <a href="#faq">FAQ</a>
         </nav>
         <div class="nav-buttons">
@@ -736,48 +920,63 @@
             <div class="status-badge">
                 <span class="status-dot"></span> VANTA CLIENT v5.2 ONLINE (MC 1.8 - 1.21)
             </div>
-            <h1>Najwyższa Wydajność.<br>Brak Kompromisów.</h1>
-            <p>Zdominuj rozgrywkę dzięki autorskiemu silnikowi optymalizacji FPS, wbudowanej chmurze ustawień i nowoczesnemu ClickGUI.</p>
+            <h1>Przyszłość Wydajności.<br>Zdominuj Rozgrywkę.</h1>
+            <p>Profesjonalny klient Minecraft ze zintegrowanym silnikiem FPS Boost, chmurą ustawień w czasie rzeczywistym oraz niewykrywalnym interfejsem ClickGUI.</p>
             <div class="hero-cta">
-                <a href="#cennik" class="btn btn-primary">Zobacz Cennik</a>
-                <button class="btn btn-secondary" onclick="openCheckoutModal('Aktywacja Kodem')">🔑 Aktywuj Kod Licencji</button>
+                <a href="#cennik" class="btn btn-primary">Zobacz Cennik Licencji</a>
+                <button class="btn btn-secondary" onclick="openCheckoutModal('Aktywacja Kodem')">🔑 Wpisz Kod Licencyjny</button>
             </div>
         </section>
 
         <section id="funkcje" class="section">
             <div class="section-header">
-                <h2>Dlaczego VantaClient?</h2>
-                <p>Narzędzia zaprojektowane z myślą o najwyższych osiągach</p>
+                <h2>Główne Zalety VantaClient</h2>
+                <p>Narzędzia stworzone przez graczy dla graczy</p>
             </div>
 
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🚀</div>
-                    <h3>FPS Boost Engine</h3>
-                    <p>Modyfikacje renderowania zwiększające płynność gry nawet o 200% na słabszych komputerach.</p>
+                    <h3>FPS Boost Engine v3</h3>
+                    <p>Zaawansowana optymalizacja wątków i renderowania chunków. Zwiększa płynność nawet o 200%.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">☁️</div>
-                    <h3>Chmura Ustawień</h3>
-                    <p>Zapisuj swoje profile modów online i wczytuj je jednym kliknięciem z dowolnego miejsca.</p>
+                    <h3>Cloud Sync & Profiles</h3>
+                    <p>Wszystkie Twoje konfiguracje i skróty klawiszowe są automatycznie zapisywane w chmurze.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎨</div>
-                    <h3>Nowoczesny Hud & GUI</h3>
-                    <p>Intuicyjne menu ustawień oraz w pełni personalizowany układ elementów na ekranie.</p>
+                    <h3>Dedykowane ClickGUI</h3>
+                    <p>Nowoczesny i przejrzysty interfejs w grze z wyszukiwarką modułów i wbudowanym HUD-editorem.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Brak Opóźnień (Low Latency)</h3>
-                    <p>Zoptymalizowany pakiet sieciowy zredukowany do minimum dla płynniejszej walki.</p>
+                    <div class="feature-icon">⚡</div>
+                    <h3>Low Latency Networking</h3>
+                    <p>Zoptymalizowana obsługa pakietów sieciowych gwarantuje płynniejsze starcia w trybie PvP.</p>
                 </div>
+            </div>
+        </section>
+
+        <section id="mody" class="section">
+            <div class="section-header">
+                <h2>Wbudowane Modyfikacje</h2>
+                <p>Przetestuj układ i włączaj wybrane moduły w interaktywnym podglądzie</p>
+            </div>
+
+            <div class="mods-container">
+                <div class="mods-filter">
+                    <input type="text" id="modSearch" class="mod-search" placeholder="🔍 Szukaj modyfikacji (np. ArmorHUD, Keystrokes)..." oninput="filterMods()">
+                </div>
+                <div class="mods-grid" id="modsGrid">
+                    </div>
             </div>
         </section>
 
         <section id="galeria" class="section">
             <div class="section-header">
-                <h2>Galeria i Interfejs</h2>
-                <p>Zobacz jak wygląda VantaClient bezpośrednio w grze</p>
+                <h2>Galeria i Zrzuty Ekranu</h2>
+                <p>Zobacz jak prezentuje się VantaClient w grze</p>
             </div>
 
             <div class="gallery-grid">
@@ -785,7 +984,7 @@
                     <img src="image_e9ee54.jpg" alt="VantaClient ClickGUI">
                     <div class="gallery-card-body">
                         <h3>Dedykowane ClickGUI</h3>
-                        <p>Przejrzysty układ modułów, wyszukiwarka oraz natychmiastowa reakcja na zmiany ustawień.</p>
+                        <p>Przejrzysty układ modułów z pełną personalizacją kolorów i skrótów klawiszowych.</p>
                     </div>
                 </div>
 
@@ -793,7 +992,7 @@
                     <img src="image_e9ee1c.png" alt="VantaClient HUD">
                     <div class="gallery-card-body">
                         <h3>Personalizacja HUD</h3>
-                        <p>Swobodne przesuwanie elementów na ekranie, liczniki FPS, ping oraz wskaźniki stanu.</p>
+                        <p>Swobodne przesuwanie elementów na ekranie, wskaźniki pingu, licznik CPS i FPS.</p>
                     </div>
                 </div>
 
@@ -801,7 +1000,7 @@
                     <img src="image_e9eddb.png" alt="VantaClient Cloud">
                     <div class="gallery-card-body">
                         <h3>System Chmury Ustawień</h3>
-                        <p>Zapisuj swoje zestawy modyfikacji w chmurze i wczytuj je na dowolnym komputerze.</p>
+                        <p>Zapisuj profile w chmurze i udostępniaj je znajomym za pomocą jednego kodu.</p>
                     </div>
                 </div>
             </div>
@@ -809,8 +1008,8 @@
 
         <section id="cennik" class="section">
             <div class="section-header">
-                <h2>Cennik i Aktywacja</h2>
-                <p>Kup licencję lub użyj kodu wygenerowanego w Panelu Admina</p>
+                <h2>Cennik Dostępu</h2>
+                <p>Wybierz wariant płatności lub aktywuj kod dostępowy</p>
             </div>
 
             <div class="pricing-grid">
@@ -819,12 +1018,12 @@
                         <h3>Vanta Start</h3>
                         <div class="pricing-price">29.99 <span>PLN / 30 dni</span></div>
                         <ul class="pricing-features">
-                            <li>Pełny dostęp do VantaClient</li>
-                            <li>Dostęp do chmury ustawień</li>
-                            <li>Wsparcie dla wersji MC 1.8 - 1.21</li>
+                            <li>Pełny dostęp do Klienta</li>
+                            <li>Chmura Ustawień Sync</li>
+                            <li>Wsparcie MC 1.8 - 1.21</li>
                         </ul>
                     </div>
-                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Start')">Wybież / Aktywuj</button>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Start')">Wybież / Aktywuj Kodem</button>
                 </div>
 
                 <div class="pricing-card popular">
@@ -833,25 +1032,67 @@
                         <h3>Vanta Pro</h3>
                         <div class="pricing-price">69.99 <span>PLN / 90 dni</span></div>
                         <ul class="pricing-features">
-                            <li>Wszystkie funkcje wersji Start</li>
-                            <li>Priorytetowe pobieranie aktualizacji</li>
-                            <li>Unikalna ranga na Discordzie</li>
+                            <li>Wszystkie funkcje wariantu Start</li>
+                            <li>Priorytetowe Aktualizacje</li>
+                            <li>Ranga VIP na Discordzie</li>
+                            <li>Brak limitu zapisu profili</li>
                         </ul>
                     </div>
-                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Pro')">Wybierz / Aktywuj</button>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Pro')">Wybierz / Aktywuj Kodem</button>
                 </div>
 
                 <div class="pricing-card">
                     <div>
                         <h3>Vanta Lifetime</h3>
-                        <div class="pricing-price">149.99 <span>PLN / Na zawsze</span></div>
+                        <div class="pricing-price">149.99 <span>PLN / Wieczysty</span></div>
                         <ul class="pricing-features">
-                            <li>Wieczysty dostęp do programu</li>
-                            <li>Dostęp do wersji testowych (Beta)</li>
-                            <li>Priorytetowa pomoc techniczna 24/7</li>
+                            <li>Wieczysty dostęp bez opłat</li>
+                            <li>Dostęp do wersji Beta (Early Access)</li>
+                            <li>Dedykowana Pomoc 24/7</li>
+                            <li>Unikalny kosmetyk w grze</li>
                         </ul>
                     </div>
-                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Lifetime')">Wybierz / Aktywuj</button>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Lifetime')">Wybierz / Aktywuj Kodem</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="opinie" class="section">
+            <div class="section-header">
+                <h2>Opinie Społeczności</h2>
+                <p>Co gracze mówią o naszym oprogramowaniu</p>
+            </div>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-author">
+                        <div class="review-avatar">N</div>
+                        <div>
+                            <h4 style="color:#fff;">NicoPL</h4>
+                            <span style="color:var(--muted); font-size:0.8rem;">Gracz PvP</span>
+                        </div>
+                    </div>
+                    <p class="review-text">"Płynność gry wzrosła ze 120 FPS do ponad 300 FPS na moim laptopie. Zdecydowanie polecam ten klient!"</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-author">
+                        <div class="review-avatar" style="background:#10b981">M</div>
+                        <div>
+                            <h4 style="color:#fff;">MasteR_PvP</h4>
+                            <span style="color:var(--muted); font-size:0.8rem;">Streamer</span>
+                        </div>
+                    </div>
+                    <p class="review-text">"Aktywacja wygenerowanym kodem przeszła od razu bez najmniejszego problemu. Mega wygodny panel."</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-author">
+                        <div class="review-avatar" style="background:#f59e0b">K</div>
+                        <div>
+                            <h4 style="color:#fff;">Koxu_99</h4>
+                            <span style="color:var(--muted); font-size:0.8rem;">Gracz BedWars</span>
+                        </div>
+                    </div>
+                    <p class="review-text">"Moduły Keystrokes i ArmorHUD wyglądają niesamowicie czysto. Najlepsza alternatywa na rynku."</p>
                 </div>
             </div>
         </section>
@@ -859,21 +1100,21 @@
         <section id="faq" class="section">
             <div class="section-header">
                 <h2>Często Zadawane Pytania (FAQ)</h2>
-                <p>Wszystko, co musisz wiedzieć przed użyciem</p>
+                <p>Masz pytania? Tutaj znajdziesz odpowiedzi</p>
             </div>
 
-            <div style="max-width: 800px; margin: 0 auto;">
+            <div style="max-width: 820px; margin: 0 auto;">
                 <div class="faq-item" onclick="toggleFaq(this)">
-                    <div class="faq-question">Jak aktywować klucz licencyjny z Panelu Admina? <span>+</span></div>
-                    <div class="faq-answer">Kliknij przycisk "🔑 Wpisz Kod / Kup" w menu górnym, wybierz zakładkę "🔑 Aktywuj Kod Licencji", wpisz swój wygenerowany klucz i zatwierdź. System natychmiast odblokuje licencję!</div>
+                    <div class="faq-question">Jak aktywować klucz licencyjny? <span>+</span></div>
+                    <div class="faq-answer">Kliknij przycisk <b>"🔑 Wpisz Kod / Kup"</b> na górze strony, wklej wygenerowany klucz w polu aktywacji, wpisz swój nick z gry i zatwierdź. Licencja zostanie przypisana natychmiastowo.</div>
                 </div>
                 <div class="faq-item" onclick="toggleFaq(this)">
-                    <div class="faq-question">Czy VantaClient działa na nowszych wersjach Minecraft? <span>+</span></div>
-                    <div class="faq-answer">Tak! VantaClient wspiera wszystkie wersje Minecraft od 1.8.9 aż do najnowszego wydania 1.21.</div>
+                    <div class="faq-question">Jak zalogować się do Panelu Administratora? <span>+</span></div>
+                    <div class="faq-answer">Kliknij przycisk <b>"👑 Panel Admina"</b> w prawym górnym rogu strony i wprowadź tajne hasło dostępowe dla administratora.</div>
                 </div>
                 <div class="faq-item" onclick="toggleFaq(this)">
-                    <div class="faq-question">Jakie jest hasło do Panelu Administratora? <span>+</span></div>
-                    <div class="faq-answer">Domyślne hasło dostępowe do panelu zarządzania wynosi: <code>admin123</code>.</div>
+                    <div class="faq-question">Czy VantaClient działa z wersjami 1.8.9 oraz 1.21? <span>+</span></div>
+                    <div class="faq-answer">Tak! VantaClient posiada wbudowany silnik wielowersyjności, dzięki czemu możesz grać na dowolnym serwerze Minecraft.</div>
                 </div>
             </div>
         </section>
@@ -889,7 +1130,7 @@
 
             <form id="formLogin" onsubmit="handleAuth(event, 'login')">
                 <div class="form-group">
-                    <label>Login / E-mail</label>
+                    <label>Login lub E-mail</label>
                     <input type="text" placeholder="Wpisz swój login" required>
                 </div>
                 <div class="form-group">
@@ -901,8 +1142,8 @@
 
             <form id="formRegister" style="display:none;" onsubmit="handleAuth(event, 'register')">
                 <div class="form-group">
-                    <label>Nazwa użytkownika</label>
-                    <input type="text" id="regUsername" placeholder="Wybierz login" required>
+                    <label>Nazwa Użytkownika</label>
+                    <input type="text" id="regUsername" placeholder="Wybierz login w grze" required>
                 </div>
                 <div class="form-group">
                     <label>E-mail</label>
@@ -923,12 +1164,12 @@
             
             <div class="modal-tabs">
                 <button class="modal-tab active" id="tabRedeem" onclick="switchCheckoutTab('redeem')">🔑 Aktywuj Kod Licencji</button>
-                <button class="modal-tab" id="tabBuy" onclick="switchCheckoutTab('buy')">💳 Kup Płatnością</button>
+                <button class="modal-tab" id="tabBuy" onclick="switchCheckoutTab('buy')">💳 Zakup Płatnością</button>
             </div>
 
             <form id="formRedeem" onsubmit="handleRedeemCode(event)">
-                <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 15px;">
-                    Posiadasz kod z Panelu Admina? Wpisz go poniżej, aby przypisać licencję.
+                <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 16px;">
+                    Posiadasz kod wygenerowany w panelu admina? Wpisz go poniżej, aby aktywować licencję bez kupowania!
                 </p>
                 <div class="form-group">
                     <label>Kod Licencyjny</label>
@@ -936,7 +1177,7 @@
                 </div>
                 <div class="form-group">
                     <label>Twój Nick w grze</label>
-                    <input type="text" id="redeemUserNick" placeholder="Wpisz Twój nick" required>
+                    <input type="text" id="redeemUserNick" placeholder="np. Kox_Player" required>
                 </div>
                 <button type="submit" class="modal-btn" style="background:var(--success)">Zweryfikuj i Aktywuj Kod</button>
             </form>
@@ -951,10 +1192,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>E-mail do wysyłki klucza</label>
+                    <label>Adres E-mail do wysyłki</label>
                     <input type="email" placeholder="twój-email@domena.pl" required>
                 </div>
-                <button type="submit" class="modal-btn">Opłać Zamówienie</button>
+                <button type="submit" class="modal-btn">Przejdź do Płatności</button>
             </form>
         </div>
     </div>
@@ -962,57 +1203,97 @@
     <div class="modal-overlay" id="adminModal">
         <div class="modal modal-large">
             <button class="modal-close" onclick="closeModals()">&times;</button>
-            <h2 style="margin-bottom: 15px; display:flex; align-items:center; gap:10px;">
-                ⚙️ Panel Administratora VantaClient
+            <h2 style="margin-bottom: 20px; display:flex; align-items:center; gap:10px;">
+                👑 Panel Administratora VantaClient
             </h2>
 
-            <div class="admin-stats">
-                <div class="stat-card">
-                    <h4>Zarejestrowani Użytkownicy</h4>
-                    <div class="value" id="statUsers">3</div>
+            <div class="admin-nav">
+                <button class="admin-nav-btn active" id="adminTabBtn1" onclick="switchAdminTab('keys')">🔑 Generator & Klucze</button>
+                <button class="admin-nav-btn" id="adminTabBtn2" onclick="switchAdminTab('users')">👥 Użytkownicy</button>
+                <button class="admin-nav-btn" id="adminTabBtn3" onclick="switchAdminTab('logs')">📜 Logi Systemowe</button>
+            </div>
+
+            <div id="adminSectionKeys">
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <h4>Wszystkie Klucze</h4>
+                        <div class="value" id="statKeysTotal">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Klucze Aktywne</h4>
+                        <div class="value" id="statKeysActive" style="color:var(--success)">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Klucze Zużyte</h4>
+                        <div class="value" id="statKeysUsed" style="color:var(--muted)">0</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h4>Wygenerowane Klucze</h4>
-                    <div class="value" id="statLicenses">0</div>
+
+                <div style="background: rgba(255,255,255,0.02); padding:20px; border-radius:14px; border:1px solid var(--border); margin-bottom:20px;">
+                    <h3 style="font-size:1.05rem; margin-bottom:8px;">Wygeneruj Nowy Klucz</h3>
+                    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:14px;">Wybierz typ planu i wygeneruj unikalny kod dla użytkownika.</p>
+                    
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                        <select id="genPlanSelect" style="flex:1; min-width:180px; padding:10px; background:#121624; border:1px solid var(--border); color:#fff; border-radius:8px;">
+                            <option value="30D">Vanta Start (30 Dni)</option>
+                            <option value="90D">Vanta Pro (90 Dni)</option>
+                            <option value="LIFE">Vanta Lifetime (Wieczysty)</option>
+                        </select>
+                        <button class="modal-btn" style="width:auto; margin-top:0; padding:10px 24px;" onclick="generateKey()">Wygeneruj Klucz</button>
+                    </div>
+
+                    <div id="generatedKeyBox" style="display:none; margin-top:16px; padding:14px; background:rgba(99,102,241,0.1); border:1px solid var(--accent); border-radius:10px; justify-content:space-between; align-items:center;">
+                        <div>
+                            <span style="font-size:0.8rem; color:var(--muted); display:block;">Ostatnio Wygenerowany Kod:</span>
+                            <span id="generatedKeyText" style="font-family:monospace; font-size:1.1rem; color:#fff; font-weight:bold;"></span>
+                        </div>
+                        <button class="btn-action btn-copy" style="padding:8px 16px; font-size:0.85rem;" onclick="copyGeneratedKey()">📋 Kopiuj Kod</button>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h4>Przychód (Ten miesiąc)</h4>
-                    <div class="value" style="color:var(--success)">14,820 PLN</div>
+
+                <h3 style="font-size:1rem; margin-bottom:10px;">Baza Wygenerowanych Kluczy</h3>
+                <div style="max-height: 200px; overflow-y: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Kod Licencji</th>
+                                <th>Typ Planu</th>
+                                <th>Status</th>
+                                <th>Akcja</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminKeysTableBody">
+                            </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.02); padding:20px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;">
-                <h3 style="font-size:1.05rem; margin-bottom:6px;">🔑 Generator Kluczy Licencyjnych</h3>
-                <p style="color:var(--muted); font-size:0.85rem; margin-bottom:12px;">Wygenerowany kod automatycznie trafi do bazy poprawnych kluczy.</p>
-                <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                    <select id="genPlan" style="flex:1; min-width:180px; padding:10px; background:#121624; border:1px solid var(--border); color:#fff; border-radius:8px;">
-                        <option value="30D">Vanta Start (30 Dni)</option>
-                        <option value="90D">Vanta Pro (90 Dni)</option>
-                        <option value="LIFE">Vanta Lifetime (Wieczysty)</option>
-                    </select>
-                    <button class="modal-btn" style="width:auto; margin-top:0; padding:10px 20px;" onclick="generateKey()">Wygeneruj Klucz</button>
+            <div id="adminSectionUsers" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h3 style="font-size:1.05rem;">Zarządzanie Kontami Graczy</h3>
+                    <input type="text" id="userSearchInput" placeholder="🔍 Szukaj gracza..." oninput="renderUserTable()" style="padding:7px 14px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:6px; color:#fff; font-size:0.85rem;">
                 </div>
-                <div id="generatedKeyResult" style="margin-top:12px; font-family:monospace; font-size:1.05rem; color:var(--accent); font-weight:bold; user-select:all;"></div>
+
+                <div style="max-height: 320px; overflow-y: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Gracz</th>
+                                <th>Posiadany Plan</th>
+                                <th>Stan Konta</th>
+                                <th>Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminUserList">
+                            </tbody>
+                    </table>
+                </div>
             </div>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <h3 style="font-size:1.05rem;">👥 Zarządzanie Kontami</h3>
-                <input type="text" id="userSearchInput" placeholder="🔍 Szukaj gracza..." oninput="filterUsers()" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:6px; color:#fff; font-size:0.85rem;">
-            </div>
-
-            <div style="max-height: 220px; overflow-y: auto;">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Użytkownik</th>
-                            <th>Plan</th>
-                            <th>Stan Licencji</th>
-                            <th>Akcje</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminUserList">
-                        </tbody>
-                </table>
+            <div id="adminSectionLogs" style="display:none;">
+                <h3 style="font-size:1.05rem; margin-bottom:10px;">Historia Działań w Panelu (Audit Log)</h3>
+                <div style="max-height: 320px; overflow-y: auto; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; padding:15px; font-family:monospace; font-size:0.85rem; color:var(--muted);" id="adminLogsContainer">
+                    </div>
             </div>
         </div>
     </div>
@@ -1021,20 +1302,20 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <h3>VantaClient Official</h3>
-                <p>Niezależne oprogramowanie użytkowe stworzone dla profesjonalistów.</p>
+                <p>Niezależne oprogramowanie użytkowe stworzone z myślą o graczach Minecraft.</p>
             </div>
             <div class="footer-links">
                 <h4>Nawigacja</h4>
                 <ul>
                     <li><a href="#funkcje">Funkcje</a></li>
-                    <li><a href="#galeria">Galeria</a></li>
+                    <li><a href="#mody">Modyfikacje</a></li>
                     <li><a href="#cennik">Cennik</a></li>
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Administrator</h4>
+                <h4>Panel Zawiadywania</h4>
                 <ul>
-                    <li><a href="javascript:void(0)" onclick="openAdminModal()">Zaloguj do Panelu Admina</a></li>
+                    <li><a href="javascript:void(0)" onclick="openAdminModal()">Zaloguj do Panelu Administratora</a></li>
                 </ul>
             </div>
         </div>
@@ -1045,23 +1326,62 @@
     </footer>
 
     <script>
-        // STAN APLIKACJI (Baza Danych w Pamięci Podręcznej)
+        // HASŁO W KODZIE JS (USUNIĘTE Z PUBLICZNEGO WIDOKU STRONY)
         const ADMIN_PASSWORD = "admin123";
-        let generatedKeysList = [];
-        
-        let usersList = [
+
+        // STAN APLIKACJI (Zapisywany w localStorage)
+        let generatedKeys = JSON.parse(localStorage.getItem('vanta_keys')) || [
+            { code: "VANTA-LIFE-PRO1-9999", plan: "LIFE", used: false },
+            { code: "VANTA-30D-TEST-1234", plan: "30D", used: true }
+        ];
+
+        let usersList = JSON.parse(localStorage.getItem('vanta_users')) || [
             { id: 1, name: "NicoPL", plan: "Vanta Lifetime", banned: false },
             { id: 2, name: "MasteR_PvP", plan: "Vanta Pro (90d)", banned: false },
             { id: 3, name: "Shadow_99", plan: "Vanta Start (30d)", banned: true }
         ];
 
-        // INICJALIZACJA STRONY
+        let auditLogs = JSON.parse(localStorage.getItem('vanta_logs')) || [
+            "System zainicjalizowany pomyślnie."
+        ];
+
+        let lastGeneratedKey = "";
+
+        const availableMods = [
+            { name: "FPS Boost Engine", category: "Wydajność", active: true },
+            { name: "Keystrokes HUD", category: "Interfejs", active: true },
+            { name: "Armor & Item Status", category: "Interfejs", active: true },
+            { name: "CPS Counter", category: "Statystyki", active: true },
+            { name: "ToggleSprint & Fly", category: "Ruch", active: true },
+            { name: "Custom Crosshair", category: "Wygląd", active: false },
+            { name: "Direction HUD (Kompas)", category: "Interfejs", active: true },
+            { name: "Reach Display", category: "Statystyki", active: false }
+        ];
+
+        // START
         document.addEventListener("DOMContentLoaded", () => {
             initCanvasBackground();
-            renderUserTable();
+            renderModsList();
+            saveAndRefreshData();
         });
 
-        // TOAST NOTIFICATIONS
+        function addLog(msg) {
+            const time = new Date().toLocaleTimeString();
+            auditLogs.unshift(`[${time}] ${msg}`);
+            if (auditLogs.length > 50) auditLogs.pop();
+            localStorage.setItem('vanta_logs', JSON.stringify(auditLogs));
+            renderLogs();
+        }
+
+        function saveAndRefreshData() {
+            localStorage.setItem('vanta_keys', JSON.stringify(generatedKeys));
+            localStorage.setItem('vanta_users', JSON.stringify(usersList));
+            renderUserTable();
+            renderKeysTable();
+            renderLogs();
+        }
+
+        // TOAST POWIADOMIENIA
         function showToast(msg, type = "info") {
             const container = document.getElementById("toast-container");
             const toast = document.createElement("div");
@@ -1069,19 +1389,49 @@
             toast.innerHTML = type === "success" ? `✅ ${msg}` : (type === "danger" ? `❌ ${msg}` : `ℹ️ ${msg}`);
             container.appendChild(toast);
 
-            setTimeout(() => {
-                toast.remove();
-            }, 3500);
+            setTimeout(() => { toast.remove(); }, 3500);
         }
 
-        // FAQ ACCORDION
+        // AKORDEON FAQ
         function toggleFaq(element) {
             element.classList.toggle("active");
             const span = element.querySelector(".faq-question span");
             span.innerText = element.classList.contains("active") ? "−" : "+";
         }
 
-        // MODALE
+        // LISTA MODÓW PREVIEW
+        function renderModsList(filter = "") {
+            const grid = document.getElementById("modsGrid");
+            grid.innerHTML = "";
+            
+            availableMods
+                .filter(m => m.name.toLowerCase().includes(filter.toLowerCase()))
+                .forEach((mod, index) => {
+                    const item = document.createElement("div");
+                    item.className = "mod-item";
+                    item.innerHTML = `
+                        <div class="mod-info">
+                            <h4>${mod.name}</h4>
+                            <span>${mod.category}</span>
+                        </div>
+                        <div class="toggle-switch ${mod.active ? 'active' : ''}" onclick="toggleMod(${index})"></div>
+                    `;
+                    grid.appendChild(item);
+                });
+        }
+
+        function filterMods() {
+            const val = document.getElementById("modSearch").value;
+            renderModsList(val);
+        }
+
+        function toggleMod(index) {
+            availableMods[index].active = !availableMods[index].active;
+            renderModsList(document.getElementById("modSearch").value);
+            showToast(`Zmieniono stan modułu: ${availableMods[index].name}`);
+        }
+
+        // MODALE OPEN / CLOSE
         function openLoginModal(tab) {
             document.getElementById('loginModal').classList.add('active');
             switchTab(tab);
@@ -1093,12 +1443,13 @@
         }
 
         function openAdminModal() {
-            const pwd = prompt("🔐 Wprowadź hasło administratora:");
+            const pwd = prompt("🔐 Podaj hasło administratora:");
             if (pwd === ADMIN_PASSWORD) {
                 document.getElementById('adminModal').classList.add('active');
-                showToast("Zalogowano do Panelu Administratora", "success");
+                addLog("Administrator zalogował się do panelu.");
+                showToast("Dostęp przyznany! Zalogowano jako Admin.", "success");
             } else if (pwd !== null) {
-                showToast("Nieprawidłowe hasło administratora!", "danger");
+                showToast("Błędne hasło dostępu!", "danger");
             }
         }
 
@@ -1144,34 +1495,41 @@
             }
         }
 
-        // LOGIKA AKTYWACJI KLUCZA (Weryfikuje klucze stworzone w Adminie)
+        // SYSTEM WYKORZYSTANIA KODU (Weryfikuje klucze wygenerowane w Adminie)
         function handleRedeemCode(e) {
             e.preventDefault();
-            const codeInput = document.getElementById('licenseCodeInput').value.trim().toUpperCase();
+            const inputCode = document.getElementById('licenseCodeInput').value.trim().toUpperCase();
             const userNick = document.getElementById('redeemUserNick').value.trim();
 
-            const keyIndex = generatedKeysList.findIndex(item => item.code === codeInput && !item.used);
+            const keyObj = generatedKeys.find(k => k.code === inputCode);
 
-            if (keyIndex !== -1) {
-                // Klucz Prawidłowy!
-                generatedKeysList[keyIndex].used = true;
-                const planName = generatedKeysList[keyIndex].plan;
+            if (keyObj) {
+                if (keyObj.used) {
+                    showToast("Ten kod został już wcześniej wykorzystany!", "danger");
+                    return;
+                }
 
-                // Dodaj użytkownika do listy
+                // Oznaczenie kodu jako zużyty
+                keyObj.used = true;
+
+                // Dodanie użytkownika do bazy kont
+                let planFullName = "Vanta " + (keyObj.plan === "LIFE" ? "Lifetime" : (keyObj.plan === "90D" ? "Pro (90d)" : "Start (30d)"));
                 usersList.push({
                     id: Date.now(),
                     name: userNick,
-                    plan: "Vanta " + planName,
+                    plan: planFullName,
                     banned: false
                 });
 
-                renderUserTable();
-                showToast(`Pomyślnie aktywowano plan ${planName} dla użytkownika ${userNick}!`, "success");
+                addLog(`Użytkownik ${userNick} aktywował licencję kodem ${inputCode}`);
+                saveAndRefreshData();
+
+                showToast(`🎉 Udana Aktywacja! Licencja (${planFullName}) została pomyślnie przypisana do gracza ${userNick}!`, "success");
                 closeModals();
                 document.getElementById('licenseCodeInput').value = "";
                 document.getElementById('redeemUserNick').value = "";
             } else {
-                showToast("Nieprawidłowy lub wykorzystany kod licencyjny!", "danger");
+                showToast("Wprowadzony kod licencyjny nie istnieje w bazie systemowej!", "danger");
             }
         }
 
@@ -1180,9 +1538,10 @@
             if(type === 'register') {
                 const name = document.getElementById('regUsername').value;
                 usersList.push({ id: Date.now(), name: name, plan: "Brak Licencji", banned: false });
-                renderUserTable();
+                addLog(`Zarejestrowano nowe konto: ${name}`);
+                saveAndRefreshData();
             }
-            showToast(type === 'login' ? 'Zalogowano pomyślnie!' : 'Rejestracja udana!', "success");
+            showToast(type === 'login' ? 'Zalogowano pomyślnie!' : 'Konto zostało utworzone!', "success");
             closeModals();
         }
 
@@ -1192,25 +1551,80 @@
             setTimeout(() => { closeModals(); }, 1500);
         }
 
-        // AKCJE PANELU ADMINA
+        // AKCJE ADMINA
+        function switchAdminTab(tabName) {
+            document.getElementById('adminSectionKeys').style.display = tabName === 'keys' ? 'block' : 'none';
+            document.getElementById('adminSectionUsers').style.display = tabName === 'users' ? 'block' : 'none';
+            document.getElementById('adminSectionLogs').style.display = tabName === 'logs' ? 'block' : 'none';
+
+            document.getElementById('adminTabBtn1').classList.toggle('active', tabName === 'keys');
+            document.getElementById('adminTabBtn2').classList.toggle('active', tabName === 'users');
+            document.getElementById('adminTabBtn3').classList.toggle('active', tabName === 'logs');
+        }
+
         function generateKey() {
-            const plan = document.getElementById('genPlan').value;
+            const plan = document.getElementById('genPlanSelect').value;
             const randHex = () => Math.random().toString(36).substring(2, 6).toUpperCase();
             const newKey = `VANTA-${plan}-${randHex()}-${randHex()}`;
 
-            generatedKeysList.push({ code: newKey, plan: plan, used: false });
-            
-            document.getElementById('generatedKeyResult').innerText = "Wygenerowany Kod: " + newKey;
-            document.getElementById('statLicenses').innerText = generatedKeysList.length;
+            generatedKeys.unshift({ code: newKey, plan: plan, used: false });
+            lastGeneratedKey = newKey;
 
-            showToast("Wygenerowano nowy klucz licencyjny!", "success");
+            document.getElementById('generatedKeyText').innerText = newKey;
+            document.getElementById('generatedKeyBox').style.display = 'flex';
+
+            addLog(`Wygenerowano nowy klucz licencyjny (${plan}): ${newKey}`);
+            saveAndRefreshData();
+
+            showToast("Wygenerowano nowy klucz!", "success");
         }
 
-        function renderUserTable(filterQuery = "") {
-            const tbody = document.getElementById('adminUserList');
+        function copyGeneratedKey() {
+            if (!lastGeneratedKey) return;
+            navigator.clipboard.writeText(lastGeneratedKey).then(() => {
+                showToast("🔑 Kod skopiowany do schowka!", "success");
+            });
+        }
+
+        function copyKeyToClipboard(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                showToast(`Skopiowano kod: ${code}`, "info");
+            });
+        }
+
+        function renderKeysTable() {
+            const tbody = document.getElementById('adminKeysTableBody');
             tbody.innerHTML = "";
 
-            const filtered = usersList.filter(u => u.name.toLowerCase().includes(filterQuery.toLowerCase()));
+            let activeCount = 0;
+            let usedCount = 0;
+
+            generatedKeys.forEach(k => {
+                if (k.used) usedCount++; else activeCount++;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-family:monospace; font-weight:bold;">${k.code}</td>
+                    <td>${k.plan}</td>
+                    <td><span class="badge-status ${k.used ? 'badge-used' : 'badge-active'}">${k.used ? 'Wykorzystany' : 'Aktywny'}</span></td>
+                    <td>
+                        <button class="btn-action btn-copy" onclick="copyKeyToClipboard('${k.code}')">📋 Kopiuj</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('statKeysTotal').innerText = generatedKeys.length;
+            document.getElementById('statKeysActive').innerText = activeCount;
+            document.getElementById('statKeysUsed').innerText = usedCount;
+        }
+
+        function renderUserTable() {
+            const tbody = document.getElementById('adminUserList');
+            const searchVal = document.getElementById('userSearchInput') ? document.getElementById('userSearchInput').value.toLowerCase() : "";
+            tbody.innerHTML = "";
+
+            const filtered = usersList.filter(u => u.name.toLowerCase().includes(searchVal));
 
             filtered.forEach(user => {
                 const tr = document.createElement('tr');
@@ -1220,36 +1634,39 @@
                     <td><span class="badge-status ${user.banned ? 'badge-banned' : 'badge-active'}">${user.banned ? 'Zbanowany' : 'Aktywna'}</span></td>
                     <td>
                         <button class="btn-action ${user.banned ? 'btn-unban' : 'btn-ban'}" onclick="toggleBanUser(${user.id})">${user.banned ? 'Odbanuj' : 'Zbanuj'}</button>
-                        <button class="btn-action" style="background:#4b5563; color:#fff;" onclick="deleteUser(${user.id})">Usuń</button>
+                        <button class="btn-action" style="background:#374151; color:#fff;" onclick="deleteUser(${user.id})">Usuń</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
-
-            document.getElementById('statUsers').innerText = usersList.length;
         }
 
         function toggleBanUser(userId) {
             const user = usersList.find(u => u.id === userId);
             if(user) {
                 user.banned = !user.banned;
-                renderUserTable();
-                showToast(`Zmieniono status użytkownika ${user.name}`, "info");
+                addLog(`Zmieniono status bana użytkownika ${user.name} na: ${user.banned}`);
+                saveAndRefreshData();
+                showToast(`Zaktualizowano status konta ${user.name}`, "info");
             }
         }
 
         function deleteUser(userId) {
+            const uName = usersList.find(u => u.id === userId)?.name;
             usersList = usersList.filter(u => u.id !== userId);
-            renderUserTable();
-            showToast("Usunięto użytkownika.", "danger");
+            addLog(`Usunięto użytkownika ${uName} z bazy systemowej.`);
+            saveAndRefreshData();
+            showToast("Konto usunięte.", "danger");
         }
 
-        function filterUsers() {
-            const q = document.getElementById('userSearchInput').value;
-            renderUserTable(q);
+        function renderLogs() {
+            const box = document.getElementById('adminLogsContainer');
+            if (box) {
+                box.innerHTML = auditLogs.map(l => `<div>${l}</div>`).join('');
+            }
         }
 
-        // BACKGROUND ANIMATED CANVAS (Particles)
+        // ANIMOWANE TŁO CANVAS (Cząsteczki)
         function initCanvasBackground() {
             const canvas = document.getElementById('bg-canvas');
             const ctx = canvas.getContext('2d');
@@ -1261,11 +1678,11 @@
             resize();
             window.addEventListener('resize', resize);
 
-            const particles = Array.from({ length: 45 }, () => ({
+            const particles = Array.from({ length: 50 }, () => ({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
+                vx: (Math.random() - 0.5) * 0.6,
+                vy: (Math.random() - 0.5) * 0.6,
                 size: Math.random() * 2 + 1
             }));
 
@@ -1284,15 +1701,14 @@
                     ctx.fillStyle = 'rgba(99, 102, 241, 0.4)';
                     ctx.fill();
 
-                    // Connect lines
                     for (let j = i + 1; j < particles.length; j++) {
                         const p2 = particles[j];
                         const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                        if (dist < 120) {
+                        if (dist < 130) {
                             ctx.beginPath();
                             ctx.moveTo(p.x, p.y);
                             ctx.lineTo(p2.x, p2.y);
-                            ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - dist / 120)})`;
+                            ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - dist / 130)})`;
                             ctx.stroke();
                         }
                     }
