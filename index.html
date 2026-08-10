@@ -500,7 +500,13 @@
             border: 1px solid var(--success);
         }
 
-        /* Sekcja Admin Panel Styles */
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        /* Admin Panel Styles */
         .admin-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -660,7 +666,7 @@
         <div class="nav-buttons">
             <button class="btn-admin" onclick="openAdminModal()">👑 Panel Admina</button>
             <button class="btn-panel" onclick="openLoginModal('login')">Panel / Logowanie</button>
-            <a href="#cennik" class="btn-buy">Kup Licencję</a>
+            <button class="btn-buy" onclick="openCheckoutModal('Vanta Licencja')">Aktywuj / Kup Licencję</button>
         </div>
     </header>
 
@@ -673,7 +679,7 @@
             <p>Zapewnij sobie przewagę i najwyższą optymalizację. Autorski klient z wbudowaną chmurą ustawień oraz intuicyjnym interfejsem.</p>
             <div class="hero-cta">
                 <a href="#cennik" class="btn btn-primary">Zobacz Cennik</a>
-                <button class="btn btn-secondary" onclick="openLoginModal('login')">Zaloguj do Panelu</button>
+                <button class="btn btn-secondary" onclick="openCheckoutModal('Aktywacja Klucza')">🔑 Wpisz Kod Licencji</button>
             </div>
         </section>
 
@@ -712,8 +718,8 @@
 
         <section id="cennik" class="section">
             <div class="section-header">
-                <h2>Cennik Licencji VantaClient</h2>
-                <p>Wybierz plan dopasowany do Twoich potrzeb</p>
+                <h2>Cennik / Aktywacja VantaClient</h2>
+                <p>Kup licencję lub wpisz posiadany kod</p>
             </div>
 
             <div class="pricing-grid">
@@ -727,7 +733,7 @@
                             <li>Wsparcie dla wersji MC 1.8 - 1.21</li>
                         </ul>
                     </div>
-                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Start - 29.99 PLN')">Kup Teraz</button>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Start')">Kup lub Aktywuj Kodem</button>
                 </div>
 
                 <div class="pricing-card popular">
@@ -736,12 +742,12 @@
                         <h3>Vanta Pro</h3>
                         <div class="pricing-price">69.99 <span>PLN / 90 dni</span></div>
                         <ul class="pricing-features">
-                            <li>Wszystkie funkcja wersji Start</li>
+                            <li>Wszystkie funkcje wersji Start</li>
                             <li>Priorytetowe pobieranie aktualizacji</li>
                             <li>Unikalna ranga na Discordzie</li>
                         </ul>
                     </div>
-                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Pro - 69.99 PLN')">Kup Teraz</button>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Pro')">Kup lub Aktywuj Kodem</button>
                 </div>
 
                 <div class="pricing-card">
@@ -754,7 +760,7 @@
                             <li>Priorytetowa pomoc techniczna 24/7</li>
                         </ul>
                     </div>
-                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Lifetime - 149.99 PLN')">Kup Teraz</button>
+                    <button class="modal-btn" onclick="openCheckoutModal('Vanta Lifetime')">Kup lub Aktywuj Kodem</button>
                 </div>
             </div>
         </section>
@@ -803,12 +809,30 @@
     <div class="modal-overlay" id="checkoutModal">
         <div class="modal">
             <button class="modal-close" onclick="closeModals()">&times;</button>
-            <h3 style="margin-bottom: 5px;" id="checkoutPlanTitle">Zamówienie Licencji</h3>
-            <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 20px;">Wybierz płatność, aby natychmiast otrzymać klucz.</p>
+            
+            <div class="modal-tabs">
+                <button class="modal-tab active" id="tabRedeem" onclick="switchCheckoutTab('redeem')">🔑 Wpisz Kod Licencji</button>
+                <button class="modal-tab" id="tabBuy" onclick="switchCheckoutTab('buy')">💳 Kup Licencję</button>
+            </div>
 
             <div id="checkoutAlert" class="alert-box"></div>
 
-            <form onsubmit="handleCheckout(event)">
+            <form id="formRedeem" onsubmit="handleRedeemCode(event)">
+                <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 15px;">
+                    Masz wygenerowany kod z panelu admina lub od resellera? Wpisz go poniżej, aby odebrać licencję.
+                </p>
+                <div class="form-group">
+                    <label>Kod Licencyjny (np. VANTA-LIFE-XXXX-YYYY)</label>
+                    <input type="text" id="licenseCodeInput" placeholder="VANTA-XXXX-XXXX-XXXX" style="font-family: monospace; text-transform: uppercase;" required>
+                </div>
+                <div class="form-group">
+                    <label>Twój Nick w grze / E-mail</label>
+                    <input type="text" placeholder="Wpisz nick lub e-mail" required>
+                </div>
+                <button type="submit" class="modal-btn" style="background:var(--success)">Aktywuj Licencję</button>
+            </form>
+
+            <form id="formBuy" style="display:none;" onsubmit="handleCheckout(event)">
                 <div class="form-group">
                     <label>Metoda Płatności</label>
                     <select required>
@@ -850,6 +874,7 @@
 
             <div style="background: rgba(255,255,255,0.02); padding:20px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;">
                 <h3 style="font-size:1.05rem; margin-bottom:12px;">🔑 Generator Kluczy Licencyjnych</h3>
+                <p style="color:var(--muted); font-size:0.85rem; margin-bottom:12px;">Wygeneruj kod i przekaż go użytkownikowi do wpisania w zakładce aktywacji.</p>
                 <div style="display:flex; gap:12px; flex-wrap:wrap;">
                     <select id="genPlan" style="flex:1; min-width:180px; padding:10px; background:#121624; border:1px solid var(--border); color:#fff; border-radius:8px;">
                         <option value="30D">Vanta Start (30 Dni)</option>
@@ -858,7 +883,7 @@
                     </select>
                     <button class="modal-btn" style="width:auto; margin-top:0; padding:10px 20px;" onclick="generateKey()">Wygeneruj Klucz</button>
                 </div>
-                <div id="generatedKeyResult" style="margin-top:12px; font-family:monospace; font-size:1rem; color:var(--accent); font-weight:bold;"></div>
+                <div id="generatedKeyResult" style="margin-top:12px; font-family:monospace; font-size:1rem; color:var(--accent); font-weight:bold; user-select:all;"></div>
             </div>
 
             <h3 style="font-size:1.05rem; margin-bottom:10px;">👥 Zarządzanie Kontami</h3>
@@ -925,18 +950,26 @@
     </footer>
 
     <script>
+        // HASŁO DO PANELA ADMINA: admin123
+        const ADMIN_PASSWORD = "admin123";
+
         function openLoginModal(tab) {
             document.getElementById('loginModal').classList.add('active');
             switchTab(tab);
         }
 
         function openCheckoutModal(planName) {
-            document.getElementById('checkoutPlanTitle').innerText = 'Zamówienie: ' + planName;
             document.getElementById('checkoutModal').classList.add('active');
+            switchCheckoutTab('redeem');
         }
 
         function openAdminModal() {
-            document.getElementById('adminModal').classList.add('active');
+            const pwd = prompt("🔐 Wprowadź hasło administratora:");
+            if (pwd === ADMIN_PASSWORD) {
+                document.getElementById('adminModal').classList.add('active');
+            } else if (pwd !== null) {
+                alert("❌ Nieprawidłowe hasło administratora!");
+            }
         }
 
         function closeModals() {
@@ -966,6 +999,49 @@
             }
         }
 
+        function switchCheckoutTab(type) {
+            const redeemForm = document.getElementById('formRedeem');
+            const buyForm = document.getElementById('formBuy');
+            const tabRedeem = document.getElementById('tabRedeem');
+            const tabBuy = document.getElementById('tabBuy');
+            const alertBox = document.getElementById('checkoutAlert');
+            
+            alertBox.style.display = 'none';
+
+            if(type === 'redeem') {
+                redeemForm.style.display = 'block';
+                buyForm.style.display = 'none';
+                tabRedeem.classList.add('active');
+                tabBuy.classList.remove('active');
+            } else {
+                redeemForm.style.display = 'none';
+                buyForm.style.display = 'block';
+                tabBuy.classList.add('active');
+                tabRedeem.classList.remove('active');
+            }
+        }
+
+        function handleRedeemCode(e) {
+            e.preventDefault();
+            const codeInput = document.getElementById('licenseCodeInput').value.trim();
+            const alertBox = document.getElementById('checkoutAlert');
+
+            if(codeInput.length < 5) {
+                alertBox.className = 'alert-box alert-danger';
+                alertBox.innerText = 'Podano nieprawidłowy kod licencji!';
+                alertBox.style.display = 'block';
+                return;
+            }
+
+            alertBox.className = 'alert-box alert-success';
+            alertBox.style.display = 'block';
+            alertBox.innerText = '✅ Kod poprawny! Licencja została pomyślnie aktywowana na Twoim koncie.';
+
+            setTimeout(() => {
+                closeModals();
+            }, 2000);
+        }
+
         function handleAuth(e, type) {
             e.preventDefault();
             const alertBox = document.getElementById('alertBox');
@@ -989,7 +1065,7 @@
             const plan = document.getElementById('genPlan').value;
             const randHex = () => Math.random().toString(36).substring(2, 6).toUpperCase();
             const newKey = `VANTA-${plan}-${randHex()}-${randHex()}-${randHex()}`;
-            document.getElementById('generatedKeyResult').innerText = "Wygenerowano klucz: " + newKey;
+            document.getElementById('generatedKeyResult').innerText = "Wygenerowano kod: " + newKey;
         }
 
         function toggleBan(btn) {
