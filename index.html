@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VantaClient — Official Website & Panel</title>
+    <title>VantaClient — Official Website & Admin Panel</title>
     <style>
         :root {
             --bg: #050609;
@@ -11,6 +11,8 @@
             --accent: #6366f1;
             --accent-hover: #4f46e5;
             --accent-glow: rgba(99, 102, 241, 0.35);
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
             --text: #f3f4f6;
             --muted: #9ca3af;
             --border: rgba(255, 255, 255, 0.08);
@@ -93,7 +95,6 @@
             padding: 8px 18px;
             border-radius: 8px;
             font-weight: 600;
-            text-decoration: none;
             border: 1px solid var(--border);
             cursor: pointer;
             transition: all 0.2s;
@@ -101,6 +102,22 @@
 
         .btn-panel:hover {
             background: rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-admin {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-admin:hover {
+            background: rgba(239, 68, 68, 0.25);
+            color: #fff;
         }
 
         .btn-buy {
@@ -210,7 +227,7 @@
             transform: translateY(-2px);
         }
 
-        /* Sekcja Galerii */
+        /* Galeria */
         .showcase {
             max-width: 1200px;
             margin: 60px auto 90px;
@@ -276,7 +293,7 @@
             font-size: 0.9rem;
         }
 
-        /* Sekcja Cennik (Pricing) */
+        /* Cennik */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -316,12 +333,6 @@
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .pricing-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
         }
 
         .pricing-price {
@@ -357,45 +368,14 @@
             margin-right: 8px;
         }
 
-        /* Sekcja Funkcji */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 28px;
-            backdrop-filter: blur(10px);
-        }
-
-        .feature-icon {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        .feature-card p {
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
-        /* Modal (Okno logowania i zakupu) */
+        /* Modale */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
@@ -412,10 +392,14 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             width: 90%;
-            max-width: 440px;
+            max-width: 460px;
             padding: 30px;
             position: relative;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .modal-large {
+            max-width: 850px;
         }
 
         .modal-close {
@@ -516,6 +500,89 @@
             border: 1px solid var(--success);
         }
 
+        /* Sekcja Admin Panel Styles */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            margin-top: 5px;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-table th {
+            color: var(--muted);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge-status {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge-active {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .badge-banned {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .btn-action {
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-ban {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-ban:hover {
+            background: var(--danger-hover);
+        }
+
         .section {
             max-width: 1200px;
             margin: 70px auto;
@@ -563,7 +630,6 @@
         .footer-links a {
             color: var(--muted);
             text-decoration: none;
-            transition: color 0.2s;
         }
 
         .footer-links a:hover {
@@ -592,6 +658,7 @@
             <a href="#faq">FAQ</a>
         </nav>
         <div class="nav-buttons">
+            <button class="btn-admin" onclick="openAdminModal()">👑 Panel Admina</button>
             <button class="btn-panel" onclick="openLoginModal('login')">Panel / Logowanie</button>
             <a href="#cennik" class="btn-buy">Kup Licencję</a>
         </div>
@@ -658,7 +725,6 @@
                             <li>Pełny dostęp do VantaClient</li>
                             <li>Dostęp do chmury ustawień</li>
                             <li>Wsparcie dla wersji MC 1.8 - 1.21</li>
-                            <li>Standardowe aktualizacje</li>
                         </ul>
                     </div>
                     <button class="modal-btn" onclick="openCheckoutModal('Vanta Start - 29.99 PLN')">Kup Teraz</button>
@@ -670,10 +736,9 @@
                         <h3>Vanta Pro</h3>
                         <div class="pricing-price">69.99 <span>PLN / 90 dni</span></div>
                         <ul class="pricing-features">
-                            <li>Wszystkie funkcje wersji Start</li>
+                            <li>Wszystkie funkcja wersji Start</li>
                             <li>Priorytetowe pobieranie aktualizacji</li>
                             <li>Unikalna ranga na Discordzie</li>
-                            <li>Dostęp do prywatnych konfigów</li>
                         </ul>
                     </div>
                     <button class="modal-btn" onclick="openCheckoutModal('Vanta Pro - 69.99 PLN')">Kup Teraz</button>
@@ -687,52 +752,9 @@
                             <li>Wieczysty dostęp do programu</li>
                             <li>Dostęp do wersji testowych (Beta)</li>
                             <li>Priorytetowa pomoc techniczna 24/7</li>
-                            <li>Ekskluzywne peleryny i kosmetyki</li>
                         </ul>
                     </div>
                     <button class="modal-btn" onclick="openCheckoutModal('Vanta Lifetime - 149.99 PLN')">Kup Teraz</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="funkcje" class="section">
-            <div class="section-header">
-                <h2>Dlaczego VantaClient?</h2>
-                <p>Stworzony z myślą o najwyższych osiągach i niezawodności</p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Brak Spadków FPS</h3>
-                    <p>Zaawansowany silnik renderowania minimalizuje zużycie pamięci RAM i procesora.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Bezpieczny Panel</h3>
-                    <p>Zarządzaj swoją licencją i aktywacjami urządzeń w prostym panelu użytkownika.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3>Automatyczne Aktualizacje</h3>
-                    <p>Klient sam aktualizuje się do najnowszej wersji bez potrzeby pobierania plików na nowo.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="faq" class="section">
-            <div class="section-header">
-                <h2>Najczęściej Zadawane Pytania</h2>
-            </div>
-
-            <div class="gallery-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
-                <div class="feature-card">
-                    <h3>Jak aktywować licencję?</h3>
-                    <p>Po zakupie w wybranej płatności otrzymasz klucz licencyjny. Zaloguj się do swojego panelu i wpisz go w zakładce "Aktywacja".</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Jakie formy płatności są akceptowane?</h3>
-                    <p>Akceptujemy szybkie płatności BLIK, PaySafeCard, Przelew online oraz Kryptowaluty.</p>
                 </div>
             </div>
         </section>
@@ -750,14 +772,14 @@
 
             <form id="formLogin" onsubmit="handleAuth(event, 'login')">
                 <div class="form-group">
-                    <label>Nazwa użytkownika / E-mail</label>
-                    <input type="text" placeholder="Twoja nazwa lub email" required>
+                    <label>Login / E-mail</label>
+                    <input type="text" placeholder="Wpisz swój login" required>
                 </div>
                 <div class="form-group">
                     <label>Hasło</label>
                     <input type="password" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="modal-btn">Zaloguj się do Panelu</button>
+                <button type="submit" class="modal-btn">Zaloguj się</button>
             </form>
 
             <form id="formRegister" style="display:none;" onsubmit="handleAuth(event, 'register')">
@@ -766,7 +788,7 @@
                     <input type="text" placeholder="Wybierz login" required>
                 </div>
                 <div class="form-group">
-                    <label>Adres E-mail</label>
+                    <label>E-mail</label>
                     <input type="email" placeholder="twoj@email.pl" required>
                 </div>
                 <div class="form-group">
@@ -782,7 +804,7 @@
         <div class="modal">
             <button class="modal-close" onclick="closeModals()">&times;</button>
             <h3 style="margin-bottom: 5px;" id="checkoutPlanTitle">Zamówienie Licencji</h3>
-            <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 20px;">Wybraną licencję otrzymasz natychmiast po opłaceniu.</p>
+            <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 20px;">Wybierz płatność, aby natychmiast otrzymać klucz.</p>
 
             <div id="checkoutAlert" class="alert-box"></div>
 
@@ -790,18 +812,88 @@
                 <div class="form-group">
                     <label>Metoda Płatności</label>
                     <select required>
-                        <option value="blik">BLIK (Szybka Płatność)</option>
-                        <option value="psc">PaySafeCard (PSC)</option>
-                        <option value="przelew">Szybki Przelew Bankowy</option>
-                        <option value="crypto">Kryptowaluty (USDT/BTC)</option>
+                        <option value="blik">BLIK</option>
+                        <option value="psc">PaySafeCard</option>
+                        <option value="przelew">Szybki Przelew</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>E-mail do wysyłki klucza</label>
                     <input type="email" placeholder="twój-email@domena.pl" required>
                 </div>
-                <button type="submit" class="modal-btn">Przejdź do Płatności</button>
+                <button type="submit" class="modal-btn">Opłać Zamówienie</button>
             </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal modal-large">
+            <button class="modal-close" onclick="closeModals()">&times;</button>
+            <h2 style="margin-bottom: 15px; display:flex; align-items:center; gap:10px;">
+                ⚙️ Panel Administratora VantaClient
+            </h2>
+
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h4>Zarejestrowani Użytkownicy</h4>
+                    <div class="value" id="statUsers">1,284</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Aktywne Licencje</h4>
+                    <div class="value" id="statLicenses">942</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Przychód (Ten miesiąc)</h4>
+                    <div class="value" style="color:var(--success)">14,820 PLN</div>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); padding:20px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;">
+                <h3 style="font-size:1.05rem; margin-bottom:12px;">🔑 Generator Kluczy Licencyjnych</h3>
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <select id="genPlan" style="flex:1; min-width:180px; padding:10px; background:#121624; border:1px solid var(--border); color:#fff; border-radius:8px;">
+                        <option value="30D">Vanta Start (30 Dni)</option>
+                        <option value="90D">Vanta Pro (90 Dni)</option>
+                        <option value="LIFE">Vanta Lifetime (Wieczysty)</option>
+                    </select>
+                    <button class="modal-btn" style="width:auto; margin-top:0; padding:10px 20px;" onclick="generateKey()">Wygeneruj Klucz</button>
+                </div>
+                <div id="generatedKeyResult" style="margin-top:12px; font-family:monospace; font-size:1rem; color:var(--accent); font-weight:bold;"></div>
+            </div>
+
+            <h3 style="font-size:1.05rem; margin-bottom:10px;">👥 Zarządzanie Kontami</h3>
+            <div style="max-height: 250px; overflow-y: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Użytkownik</th>
+                            <th>Plan</th>
+                            <th>Stan Licencji</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUserList">
+                        <tr>
+                            <td>NicoPL</td>
+                            <td>Vanta Lifetime</td>
+                            <td><span class="badge-status badge-active">Aktywna</span></td>
+                            <td><button class="btn-action btn-ban" onclick="toggleBan(this)">Zbanuj</button></td>
+                        </tr>
+                        <tr>
+                            <td>MasteR_PvP</td>
+                            <td>Vanta Pro (90d)</td>
+                            <td><span class="badge-status badge-active">Aktywna</span></td>
+                            <td><button class="btn-action btn-ban" onclick="toggleBan(this)">Zbanuj</button></td>
+                        </tr>
+                        <tr>
+                            <td>Shadow_99</td>
+                            <td>Vanta Start (30d)</td>
+                            <td><span class="badge-status badge-banned">Zbanowany</span></td>
+                            <td><button class="btn-action btn-ban" style="background:var(--success)" onclick="toggleBan(this)">Odbanuj</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -817,21 +909,18 @@
                     <li><a href="#galeria">Galeria</a></li>
                     <li><a href="#cennik">Cennik</a></li>
                     <li><a href="#funkcje">Funkcje</a></li>
-                    <li><a href="javascript:void(0)" onclick="openLoginModal('login')">Panel Użytkownika</a></li>
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Kontakt i Pomoc</h4>
+                <h4>Admin</h4>
                 <ul>
-                    <li><a href="javascript:void(0)" onclick="alert('Pomoc techniczna: pomoc@vantaclient.pl')">Kontakt E-mail</a></li>
-                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="javascript:void(0)" onclick="openAdminModal()">Zaloguj do Panelu Admina</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-legal">
             <p>&copy; 2026 VantaClient.pl | Wszystkie prawa zastrzeżone.</p>
-            <p style="margin-top: 6px;">VantaClient jest niezależnym projektem i nie jest powiązany z firmą Mojang AB.</p>
         </div>
     </footer>
 
@@ -846,9 +935,14 @@
             document.getElementById('checkoutModal').classList.add('active');
         }
 
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+        }
+
         function closeModals() {
             document.getElementById('loginModal').classList.remove('active');
             document.getElementById('checkoutModal').classList.remove('active');
+            document.getElementById('adminModal').classList.remove('active');
             document.getElementById('alertBox').style.display = 'none';
             document.getElementById('checkoutAlert').style.display = 'none';
         }
@@ -858,10 +952,7 @@
             const regForm = document.getElementById('formRegister');
             const tabL = document.getElementById('tabLogin');
             const tabR = document.getElementById('tabRegister');
-            const alertBox = document.getElementById('alertBox');
             
-            alertBox.style.display = 'none';
-
             if(tab === 'login') {
                 loginForm.style.display = 'block';
                 regForm.style.display = 'none';
@@ -877,33 +968,4 @@
 
         function handleAuth(e, type) {
             e.preventDefault();
-            const alertBox = document.getElementById('alertBox');
-            alertBox.className = 'alert-box alert-success';
-            alertBox.style.display = 'block';
-            
-            if(type === 'login') {
-                alertBox.innerText = 'Zalogowano pomyślnie! Ładowanie panelu VantaClient...';
-            } else {
-                alertBox.innerText = 'Konto zostało utworzone! Możesz się teraz zalogować.';
-            }
-
-            setTimeout(() => {
-                if(type === 'login') closeModals();
-            }, 1800);
-        }
-
-        function handleCheckout(e) {
-            e.preventDefault();
-            const alertBox = document.getElementById('checkoutAlert');
-            alertBox.className = 'alert-box alert-success';
-            alertBox.style.display = 'block';
-            alertBox.innerText = 'Generowanie bramki płatności... Przekierowanie do bezpiecznej płatności.';
-
-            setTimeout(() => {
-                alert('Dziękujemy! Po opłaceniu klucz zostanie wysłany na podany e-mail.');
-                closeModals();
-            }, 1500);
-        }
-    </script>
-</body>
-</html>
+            const alertBox
